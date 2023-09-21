@@ -13,6 +13,9 @@ public class Angle
 
     public static Angle operator +(Angle ang1, Angle ang2)
     {
+        if (ang1.value == null || ang2.value == null){
+            throw new System.Exception();
+        }
         int angle = (ang1.value + ang2.value) % 360;
         return new Angle(angle);
     }

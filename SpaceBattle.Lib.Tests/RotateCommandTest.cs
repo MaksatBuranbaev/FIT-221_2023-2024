@@ -13,7 +13,7 @@ public class RotateCommandTest
    }
 
    [Given(@"И имеет мгновенную угловую скорость (.*) град")]
-   public void ДанаУгловаяСкорость(int angle)
+   public void ДанаУгловаяСкорость(int rotateSpeed)
    {
         
    }
