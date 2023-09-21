@@ -9,6 +9,8 @@ public class Angle
         this.value = value;
     }
 
+    public Angle(){}
+
     public static Angle operator +(Angle ang1, Angle ang2)
     {
         int angle = (ang1.value + ang2.value) % 360;
