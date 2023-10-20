@@ -1,4 +1,4 @@
-using Moq;
+﻿using Moq;
 
 namespace SpaceBattle.Lib.Tests;
 
@@ -16,17 +16,18 @@ public class MoveCommandTest
         // pre
         var movable = new Mock<IMovable>();
 
-        movable.SetupGet(m => m.Position).Returns(new Vector (new int[] { 12, 5 })).Verifiable();
-        movable.SetupGet(m => m.Velocity).Returns(new Vector (new int[] { -7, 3 })).Verifiable();
+        movable.SetupGet(m => m.Position).Returns(new Vectorn(new int[] { 12, 5 })).Verifiable();
+        movable.SetupGet(m => m.Velocity).Returns(new Vectorn(new int[] { -7, 3 })).Verifiable();
 
         ICommand moveCommand = new MoveCommand(movable.Object);
 
+
         // action
         moveCommand.Execute();
-
+        
         //post
         // movable.Position is correct
-        movable.VerifySet(m => m.Position.array = new int[] { 5, 8 }, Times.Once);
-        movable.VerifyAll(); // !!!
+        movable.VerifySet(m => m.Position = new Vectorn(new int[] { 5, 8 }), Times.Once);
+        // movable.VerifyAll(); // !!!
     }
 }

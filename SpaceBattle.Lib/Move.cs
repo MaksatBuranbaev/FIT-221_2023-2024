@@ -1,28 +1,55 @@
 namespace SpaceBattle.Lib;
+using System;
 
 public interface IMovable 
 {
-	public Vector Position {get; set;}
-	public Vector Velocity {get; set;}
+	public Vectorn Position {get; set;}
+	public Vectorn Velocity {get; }
 }
 
 
-public class Vector
+public class Vectorn
 {
     public int[] array { get; set; }
-    public Vector(int[] array)
+    public Vectorn(int[] array)
     {
         this.array = array;
     }
 
-    public static Vector operator +(Vector v1, Vector v2)
+    public static Vectorn operator +(Vectorn v1, Vectorn v2)
     {
-        int[] v3 = new int[v1.array.Length];
         for(int i = 0; i < v1.array.Length; i++)
         {
-            v3[i] =  v1.array[i] + v2.array[i];
+            v1.array[i] += v2.array[i];
         }
-        return new Vector(v3);
+        return v1;
+    }
+
+    public static bool operator ==(Vectorn v1, Vectorn v2)
+    {
+        for(int i = 0; i < v1.array.Length; i++)
+        {
+            if(v1.array[i] != v2.array[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+   public static bool operator !=(Vectorn v1, Vectorn v2)
+   {
+      return !(v1 == v2);
+   }
+
+    public override bool Equals(object? v1)
+    {
+        return v1 is Vectorn && this == (Vectorn)v1;
+    }
+
+    public override int GetHashCode()
+    {
+        return array.GetHashCode();
     }
 }
 
@@ -36,6 +63,6 @@ public class MoveCommand : ICommand
     }
     public void Execute() 
     {
-		movable.Position = movable.Position + movable.Velocity;
+		movable.Position += movable.Velocity;
 	}
 }
