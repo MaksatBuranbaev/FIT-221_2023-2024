@@ -37,7 +37,8 @@ public class RotateCommandTest
    [Given(@"невозможно изменить угол наклона к оси OX космического корабля")]
    public void НевозможноИзменитьУголНаклона()
    {
-      
+      _rotatable.SetupGet(m => m.Position).Throws<Exception>().Verifiable();
+      _rotatable.SetupGet(m => m.RotationalSpeed).Throws<Exception>().Verifiable();
    }
 
    [When(@"происходит вращение вокруг собственной оси")]
