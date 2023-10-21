@@ -2,19 +2,19 @@ namespace SpaceBattle.Lib;
 
 public interface IRotateble
 {
-    public Angle Angle { get; set; }
+    public Angle Position { get; set; }
     public Angle RotationalSpeed { get; }
 }
 
 public class RotateCommand : ICommand
 {
-    private readonly IRotateble rotateble;
-    public RotateCommand(IRotateble rotateble)
+    private readonly IRotateble rotatable;
+    public RotateCommand(IRotateble rotatable)
     {
-        this.rotateble = rotateble;
+        this.rotatable = rotatable;
     }
     public void Execute()
     {
-        rotateble.Angle = rotateble.Angle + rotateble.RotationalSpeed;
+        rotatable.Position += rotatable.RotationalSpeed;
     }
 }
