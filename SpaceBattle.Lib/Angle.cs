@@ -37,7 +37,7 @@ public class Angle
 
     public override bool Equals(object? obj)
     {
-        return obj is Angle && this == (Angle) obj;
+        return obj is Angle & this == (Angle) obj;
     }
 
     public override int GetHashCode()

@@ -2,14 +2,13 @@ using Moq;
 using TechTalk.SpecFlow;
 namespace SpaceBattle.Lib.Tests;
 
-delegate void Operation();
+delegate void LFunc();
 
 [Binding]
 public class RotateCommandTest
 {
    private Mock<SpaceBattle.Lib.IRotateble> _rotatable = new Mock<IRotateble>();
-   private Operation? _a;
-   //private ICommand rotateCommand = new RotateCommand(rotateble.Object);
+   private LFunc? _a;
 
    [Given(@"космический корабль имеет угол наклона (.*) град к оси OX")]
    public void ДанУголНаклона(int angle)
@@ -50,14 +49,14 @@ public class RotateCommandTest
    [Then(@"угол наклона космического корабля к оси OX составляет (.*) град")]
    public void УголНаклонаСоставляет(int angle)
    {
+      _a();
       _rotatable.VerifySet(m => m.Position = new Angle(angle), Times.Once);
-      _rotatable.VerifyAll();
    }
 
    [Then(@"возникает ошибка Exception")]
    public void ВозникаетОшибка()
    {
-      Assert.ThrowsAsync<Exception>(() => _a());
+      Assert.Throws<Exception>(() => _a());
    }
 
 }
