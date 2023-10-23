@@ -18,8 +18,8 @@ jobs:
 
       - name: Restore dependencies
         run: 
-          dotnet restore SpaceBattle.Lib,
-          dotnet restore SpaceBattle.Lib.Tests.
+          dotnet restore SpaceBattle.Lib
+          dotnet restore SpaceBattle.Lib.Tests
 
       - name: Coverage and Tests
         run: dotnet test --collect:"XPlat Code Coverage"
