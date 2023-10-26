@@ -142,14 +142,14 @@ namespace SpaceBattle.Lib.Tests
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Немзвестный вектор")]
+        [Xunit.SkippableFactAttribute(DisplayName="Неизвестный вектор")]
         [Xunit.TraitAttribute("FeatureTitle", "Вектор")]
-        [Xunit.TraitAttribute("Description", "Немзвестный вектор")]
-        public void НемзвестныйВектор()
+        [Xunit.TraitAttribute("Description", "Неизвестный вектор")]
+        public void НеизвестныйВектор()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Немзвестный вектор", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Неизвестный вектор", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 13
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -199,6 +199,37 @@ namespace SpaceBattle.Lib.Tests
 #line hidden
 #line 21
         testRunner.Then("возникает ошибка Exception", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Тогда ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="HashCod")]
+        [Xunit.TraitAttribute("FeatureTitle", "Вектор")]
+        [Xunit.TraitAttribute("Description", "HashCod")]
+        public void HashCod()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("HashCod", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 23
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 24
+        testRunner.Given("вектор принимает на вход массив (1, 2)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Дано ");
+#line hidden
+#line 25
+        testRunner.When("происходит сложение с другим вектором (-1, -2)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Когда ");
+#line hidden
+#line 26
+        testRunner.Then("HashCode не изменится", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Тогда ");
 #line hidden
             }
             this.ScenarioCleanup();
