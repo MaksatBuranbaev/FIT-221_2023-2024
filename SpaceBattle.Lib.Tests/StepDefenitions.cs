@@ -120,4 +120,9 @@ public class VectorTest
          {
             Assert.Throws<IndexOutOfRangeException>(() => a());
          }
+   [Then(@"HashCode не изменится")]
+         public void ТоHashCodeНеИзменится()
+         {
+            Assert.True(vec.GetHashCode() == hash);
+         }
 }
