@@ -1,6 +1,9 @@
-﻿using System.Data;
+﻿using System.Configuration;
+using System.Data;
+using Microsoft.VisualBasic;
 using Moq;
 using TechTalk.SpecFlow;
+using Xunit.Sdk;
 namespace SpaceBattle.Lib.Tests;
 
 delegate void F();
@@ -8,12 +11,12 @@ delegate void F();
 [Binding, Scope(Feature = "Прямолинейное движение")]
 public class MoveCommandTest
 {
-    private static Mock<IMovable> movable = new Mock<IMovable>();
+    private Mock<IMovable> movable = new Mock<IMovable>();
     private F? a;
     [Given(@"космический корабль находится в точке пространства с координатами \((.*), (.*)\)")]
          public void ДопустимКосмическийКорабльНаходитсяВТочкеПространстваСКоординатами(int p0, int p1)
          {
-            movable.SetupGet(m => m.Position).Returns(new Vectorn(new int[] { p0, p1 })).Verifiable();
+            movable.SetupGet(m => m.Position).Returns(new Vector(new int[] { p0, p1 })).Verifiable();
          }
 
     [Given(@"изменить положение в пространстве космического корабля невозможно")]
@@ -31,7 +34,7 @@ public class MoveCommandTest
     [Given(@"имеет мгновенную скорость \((.*), (.*)\)")]
          public void ДопустимИмеетМгновеннуюСкорость(int p0, int p1)
          {
-            movable.SetupGet(m => m.Velocity).Returns(new Vectorn(new int[] { p0, p1 })).Verifiable();
+            movable.SetupGet(m => m.Velocity).Returns(new Vector(new int[] { p0, p1 })).Verifiable();
          }
 
     [Given(@"скорость корабля определить невозможно")]
@@ -56,7 +59,65 @@ public class MoveCommandTest
          public void ТоКосмическийКорабльПеремещаетсяВТочкуПространстваСКоординатами(int p0, int p1)
          {
             a();
-            movable.VerifySet(m => m.Position = new Vectorn(new int[] { p0, p1 }), Times.Once);
+            movable.VerifySet(m => m.Position = new Vector(new int[] { p0, p1 }), Times.Once);
          }
 }
 
+[Binding, Scope(Feature = "Вектор")]
+public class VectorTest
+{
+   private Vector vec;
+   int hash;
+   private F? a;
+   [Given(@"вектор принимает на вход массив \((.*), (.*)\)")]
+         public void ДопустимВекторПринимаетНаВходМассив(int p0, int p1)
+         {
+            vec = new Vector(new int[]{p0, p1});
+            hash = vec.GetHashCode();
+         }
+
+   [Given(@"массив на вход невозможно определить")]
+         public void ДопустимМассивНаВходНевозможноОпределить()
+         {
+            vec = new Vector(new int[]{});
+            hash = vec.GetHashCode();
+         }
+
+   [When(@"происходит сложение с другим вектором \((.*), (.*)\)")]
+         public void КогдаПроисходитСложениеСДругимВектором(int p0, int p1)
+         {
+            a = () => vec += new Vector(new int[]{p0,p1});
+         }
+
+   [When(@"происходит вычитание с другим вектором \((.*), (.*)\)")]
+         public void КогдаПроисходитВычитаниеСДругимВектором(int p0, int p1)
+         {
+            a = () => vec -= new Vector(new int[]{p0,p1});
+         }
+
+   [When(@"происходит сложение с неизвестным вектором")]
+         public void КогдаПроисходитСложениеСНеизвестнымВектором()
+         {
+            a = () => vec -= new Vector(new int[]{});
+         }
+
+   [Then(@"вектор равен массиву \((.*), (.*)\)")]
+         public void ТоВекторРавенМассиву(int p0, int p1)
+         {
+            a();
+            Assert.True(vec == new Vector(new int[]{p0,p1}));
+         }
+
+   [Then(@"вектор не равен массиву \((.*), (.*)\)")]
+         public void ТоВекторНеРавенМассиву(int p0, int p1)
+         {
+            a();
+            Assert.True(vec != new Vector(new int[]{p0,p1}));
+         }
+
+   [Then(@"возникает ошибка Exception")]
+         public void ТоВозникаетОшибкаException()
+         {
+            Assert.Throws<IndexOutOfRangeException>(() => a());
+         }
+}

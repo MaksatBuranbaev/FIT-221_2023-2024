@@ -44,3 +44,4 @@ msbuild.log
 msbuild.err
 msbuild.wrn
 TestResults/
+coveragereport/
