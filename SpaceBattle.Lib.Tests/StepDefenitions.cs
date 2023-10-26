@@ -67,17 +67,20 @@ public class MoveCommandTest
 public class VectorTest
 {
    private Vector vec;
+   int hash;
    private F? a;
    [Given(@"вектор принимает на вход массив \((.*), (.*)\)")]
          public void ДопустимВекторПринимаетНаВходМассив(int p0, int p1)
          {
             vec = new Vector(new int[]{p0, p1});
+            hash = vec.GetHashCode();
          }
 
    [Given(@"массив на вход невозможно определить")]
          public void ДопустимМассивНаВходНевозможноОпределить()
          {
             vec = new Vector(new int[]{});
+            hash = vec.GetHashCode();
          }
 
    [When(@"происходит сложение с другим вектором \((.*), (.*)\)")]
