@@ -235,6 +235,37 @@ namespace SpaceBattle.Lib.Tests
             this.ScenarioCleanup();
         }
         
+        [Xunit.SkippableFactAttribute(DisplayName="Проверка на null")]
+        [Xunit.TraitAttribute("FeatureTitle", "Вектор")]
+        [Xunit.TraitAttribute("Description", "Проверка на null")]
+        public void ПроверкаНаNull()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Проверка на null", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 28
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 29
+        testRunner.Given("вектор принимает на вход массив (1, 2)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Дано ");
+#line hidden
+#line 30
+        testRunner.When("происходит сложение с null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Когда ");
+#line hidden
+#line 31
+        testRunner.Then("возникает ошибка NullReferenceException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Тогда ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

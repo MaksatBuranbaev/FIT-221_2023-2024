@@ -12,29 +12,20 @@ public class Vector
     {
         if(v1.array.Length != v2.array.Length)
         {
-            throw new IndexOutOfRangeException();
+            throw new Exception();
         }
 
-        for(int i = 0; i < v1.array.Length; i++)
-        {
-            v1.array[i] += v2.array[i];
-        }
-
-        return v1;
+        return new Vector(v1.array.Zip(v2.array, (x, y) => x + y).ToArray());
     }
 
     public static Vector operator -(Vector v1, Vector v2)
     {
         if(v1.array.Length != v2.array.Length)
         {
-            throw new IndexOutOfRangeException();
+            throw new Exception();
         }
         
-        for(int i = 0; i < v1.array.Length; i++)
-        {
-            v1.array[i] -= v2.array[i];
-        }
-        return v1;
+        return new Vector(v1.array.Zip(v2.array, (x, y) => x - y).ToArray());
     }
 
     public static bool operator ==(Vector v1, Vector v2)
@@ -54,9 +45,9 @@ public class Vector
       return !(v1 == v2);
    }
 
-    public override bool Equals(object? v1)
+    public override bool Equals(object? v)
     {
-        return v1 is Vector & this == (Vector)v1;
+        return v!= null && this == (Vector)v && v is Vector;
     }
 
     public override int GetHashCode()

@@ -101,6 +101,12 @@ public class VectorTest
             a = () => vec -= new Vector(new int[]{});
          }
 
+   [When(@"происходит сложение с null")]
+         public void КогдаПроисходитСложениеСNull()
+         {
+            a = () => vec += new Vector(null);
+         }
+
    [Then(@"вектор равен массиву \((.*), (.*)\)")]
          public void ТоВекторРавенМассиву(int p0, int p1)
          {
@@ -118,8 +124,15 @@ public class VectorTest
    [Then(@"возникает ошибка Exception")]
          public void ТоВозникаетОшибкаException()
          {
-            Assert.Throws<IndexOutOfRangeException>(() => a());
+            Assert.Throws<Exception>(() => a());
          }
+
+   [Then(@"возникает ошибка NullReferenceException")]
+         public void ТоВозникаетОшибкаNullReferenceException()
+         {
+            Assert.Throws<NullReferenceException>(() => a());
+         }
+   
    [Then(@"HashCode не изменится")]
          public void ТоHashCodeНеИзменится()
          {
