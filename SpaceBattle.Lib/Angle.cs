@@ -11,9 +11,9 @@ public class Angle
         this.dim = dim;
     }
 
-    public Angle(int angle)
+    public Angle(int value)
     {
-        this.value = (angle/360 * 8) % 8;
+        this.value = value;
         this.dim = 8;
     }
 

@@ -13,7 +13,7 @@ public class RotateCommandTest
    [Given(@"космический корабль имеет угол наклона (.*) град к оси OX")]
    public void ДанУголНаклона(int angle)
    {
-      _rotatable.SetupGet(m => m.Position).Returns(new Angle(angle)).Verifiable();
+      _rotatable.SetupGet(m => m.Position).Returns(new Angle((angle/360 * 8) % 8)).Verifiable();
    }
 
    [Given(@"космический корабль, угол наклона которого невозможно определить")]
@@ -25,7 +25,7 @@ public class RotateCommandTest
    [Given(@"имеет мгновенную угловую скорость (.*) град")]
    public void ДанаУгловаяСкорость(int rotateSpeed)
    {
-      _rotatable.SetupGet(m => m.RotationalSpeed).Returns(new Angle(rotateSpeed)).Verifiable();
+      _rotatable.SetupGet(m => m.RotationalSpeed).Returns(new Angle((rotateSpeed/360 * 8) % 8)).Verifiable();
    }
 
    [Given(@"мгновенную угловую скорость невозможно определить")]
@@ -51,7 +51,7 @@ public class RotateCommandTest
    public void УголНаклонаСоставляет(int angle)
    {
       _a();
-      _rotatable.VerifySet(m => m.Position = new Angle(angle), Times.Once);
+      _rotatable.VerifySet(m => m.Position = new Angle((angle/360 * 8) % 8), Times.Once);
    }
 
    [Then(@"возникает ошибка Exception")]
