@@ -25,3 +25,6 @@ jobs:
 
       - name: Coverage and Tests
         run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+
+      - name: Code Format
+        run: dotnet format --verify-no-changes
