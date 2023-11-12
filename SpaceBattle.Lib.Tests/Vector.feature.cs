@@ -173,14 +173,14 @@ namespace SpaceBattle.Lib.Tests
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Сравнение векторов")]
+        [Xunit.SkippableFactAttribute(DisplayName="Null")]
         [Xunit.TraitAttribute("FeatureTitle", "Вектор")]
-        [Xunit.TraitAttribute("Description", "Сравнение векторов")]
-        public void СравнениеВекторов()
+        [Xunit.TraitAttribute("Description", "Null")]
+        public void Null()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сравнение векторов", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Null", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 18
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -198,7 +198,7 @@ namespace SpaceBattle.Lib.Tests
         testRunner.When("происходит сложение с другим вектором (-1, -2)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Когда ");
 #line hidden
 #line 21
-        testRunner.Then("происходит сравнение с другим вектором (1, 2)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Тогда ");
+        testRunner.Then("происходит сравнение с null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Тогда ");
 #line hidden
             }
             this.ScenarioCleanup();
