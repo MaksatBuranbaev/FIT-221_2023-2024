@@ -1,9 +1,9 @@
 namespace SpaceBattle.Lib;
 
-public interface IMovable 
+public interface IMovable
 {
-	public Vector Position {get; set;}
-	public Vector Velocity {get; }
+    public Vector Position { get; set; }
+    public Vector Velocity { get; }
 }
 
 public class MoveCommand : ICommand
@@ -14,8 +14,8 @@ public class MoveCommand : ICommand
     {
         this.movable = movable;
     }
-    public void Execute() 
+    public void Execute()
     {
-		movable.Position += movable.Velocity;
-	}
+        movable.Position += movable.Velocity;
+    }
 }
