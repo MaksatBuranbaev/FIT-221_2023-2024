@@ -115,6 +115,13 @@ public class VectorTest
             Assert.True(vec != new Vector(new int[]{p0,p1}));
          }
 
+   [Then(@"происходит сравнение с null")]
+         public void ТоПроисходитСравнениеСNull()
+         {
+            a();
+            Assert.False(vec.Equals(null));
+         }
+
    [Then(@"возникает ошибка Exception")]
          public void ТоВозникаетОшибкаException()
          {
@@ -125,12 +132,5 @@ public class VectorTest
          public void ТоHashCodeНеИзменится()
          {
             Assert.True(vec.GetHashCode() == hash);
-         }
-
-   [Then(@"происходит сравнение с другим вектором \((.*), (.*)\)")]
-         public void ТоПроисходитСравнениеСДругимВектором(int p0, int p1)
-         {
-            a();
-            Assert.False(vec.Equals(new Vector(new int[]{p0,p1})));
          }
 }
