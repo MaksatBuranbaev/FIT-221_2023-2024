@@ -45,9 +45,9 @@ public class Vector
       return !(v1 == v2);
    }
 
-    public override bool Equals(object? v)
+    public override bool Equals(object? obj)
     {
-        return v!= null && this == (Vector)v && v is Vector;
+        return obj is Vector && this == (Vector)obj;
     }
 
     public override int GetHashCode()
