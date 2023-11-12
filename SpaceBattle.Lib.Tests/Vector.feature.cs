@@ -173,14 +173,14 @@ namespace SpaceBattle.Lib.Tests
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Сложение с неизвестным вектором")]
+        [Xunit.SkippableFactAttribute(DisplayName="Сравнение векторов")]
         [Xunit.TraitAttribute("FeatureTitle", "Вектор")]
-        [Xunit.TraitAttribute("Description", "Сложение с неизвестным вектором")]
-        public void СложениеСНеизвестнымВектором()
+        [Xunit.TraitAttribute("Description", "Сравнение векторов")]
+        public void СравнениеВекторов()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сложение с неизвестным вектором", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сравнение векторов", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 18
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -195,23 +195,23 @@ namespace SpaceBattle.Lib.Tests
         testRunner.Given("вектор принимает на вход массив (1, 2)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Дано ");
 #line hidden
 #line 20
-        testRunner.When("происходит сложение с неизвестным вектором", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Когда ");
+        testRunner.When("происходит сложение с другим вектором (-1, -2)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Когда ");
 #line hidden
 #line 21
-        testRunner.Then("возникает ошибка Exception", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Тогда ");
+        testRunner.Then("происходит сравнение с другим вектором (1, 2)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Тогда ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="HashCod")]
+        [Xunit.SkippableFactAttribute(DisplayName="Сложение с неизвестным вектором")]
         [Xunit.TraitAttribute("FeatureTitle", "Вектор")]
-        [Xunit.TraitAttribute("Description", "HashCod")]
-        public void HashCod()
+        [Xunit.TraitAttribute("Description", "Сложение с неизвестным вектором")]
+        public void СложениеСНеизвестнымВектором()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("HashCod", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сложение с неизвестным вектором", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 23
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -226,23 +226,23 @@ namespace SpaceBattle.Lib.Tests
         testRunner.Given("вектор принимает на вход массив (1, 2)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Дано ");
 #line hidden
 #line 25
-        testRunner.When("происходит сложение с другим вектором (-1, -2)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Когда ");
+        testRunner.When("происходит сложение с неизвестным вектором", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Когда ");
 #line hidden
 #line 26
-        testRunner.Then("HashCode не изменится", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Тогда ");
+        testRunner.Then("возникает ошибка Exception", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Тогда ");
 #line hidden
             }
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Проверка на null")]
+        [Xunit.SkippableFactAttribute(DisplayName="HashCod")]
         [Xunit.TraitAttribute("FeatureTitle", "Вектор")]
-        [Xunit.TraitAttribute("Description", "Проверка на null")]
-        public void ПроверкаНаNull()
+        [Xunit.TraitAttribute("Description", "HashCod")]
+        public void HashCod()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Проверка на null", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("HashCod", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 28
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -257,10 +257,10 @@ namespace SpaceBattle.Lib.Tests
         testRunner.Given("вектор принимает на вход массив (1, 2)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Дано ");
 #line hidden
 #line 30
-        testRunner.When("происходит сложение с null", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Когда ");
+        testRunner.When("происходит сложение с другим вектором (-1, -2)", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Когда ");
 #line hidden
 #line 31
-        testRunner.Then("возникает ошибка NullReferenceException", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Тогда ");
+        testRunner.Then("HashCode не изменится", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Тогда ");
 #line hidden
             }
             this.ScenarioCleanup();

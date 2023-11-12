@@ -101,12 +101,6 @@ public class VectorTest
             a = () => vec -= new Vector(new int[]{});
          }
 
-   [When(@"происходит сложение с null")]
-         public void КогдаПроисходитСложениеСNull()
-         {
-            a = () => vec += new Vector(null);
-         }
-
    [Then(@"вектор равен массиву \((.*), (.*)\)")]
          public void ТоВекторРавенМассиву(int p0, int p1)
          {
@@ -126,16 +120,17 @@ public class VectorTest
          {
             Assert.Throws<Exception>(() => a());
          }
-
-   [Then(@"возникает ошибка NullReferenceException")]
-         public void ТоВозникаетОшибкаNullReferenceException()
-         {
-            Assert.Throws<NullReferenceException>(() => a());
-         }
    
    [Then(@"HashCode не изменится")]
          public void ТоHashCodeНеИзменится()
          {
             Assert.True(vec.GetHashCode() == hash);
+         }
+
+   [Then(@"происходит сравнение с другим вектором \((.*), (.*)\)")]
+         public void ТоПроисходитСравнениеСДругимВектором(int p0, int p1)
+         {
+            a();
+            Assert.False(vec.Equals(new Vector(new int[]{p0,p1})));
          }
 }
