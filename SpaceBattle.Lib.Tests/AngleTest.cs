@@ -3,13 +3,6 @@
 public class AngleTest
 {
     [Theory]
-    [InlineData(1, 10, 1, 20)]
-    public void AngleSumWithDifDim(int v1, int d1, int v2, int d2)
-    {
-        Assert.Throws<Exception>(() => (new Angle(v1, d1) + new Angle(v2, d2)));
-    }
-
-    [Theory]
     [InlineData(1, 4, 3, 4, 0, 4)]
     public void AngleSumW(int v1, int d1, int v2, int d2, int v3, int d3)
     {

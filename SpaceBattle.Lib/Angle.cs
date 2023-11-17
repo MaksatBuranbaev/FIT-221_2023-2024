@@ -18,7 +18,7 @@ public class Angle
     }
 
     public static Angle operator +(Angle ang1, Angle ang2)
-    { 
+    {
         return new Angle(ang1.Value + ang2.Value, ang1.Dim);
     }
 
@@ -34,7 +34,7 @@ public class Angle
 
     public override bool Equals(object? obj)
     {
-        return obj is Angle angle && this == vector;
+        return obj is Angle angle && this == angle;
     }
 
     public override int GetHashCode()

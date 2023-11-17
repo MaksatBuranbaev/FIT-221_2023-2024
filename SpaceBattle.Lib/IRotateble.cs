@@ -2,7 +2,6 @@
 
 public interface IRotateble
 {
-    public Angle Position { get; set; }
+    public Angle Inclination { get; set; }
     public Angle RotationalSpeed { get; }
 }
-

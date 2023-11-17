@@ -1,4 +1,4 @@
-namespace SpaceBattle.Lib;
+﻿namespace SpaceBattle.Lib;
 
 public class RotateCommand : ICommand
 {
@@ -9,6 +9,6 @@ public class RotateCommand : ICommand
     }
     public void Execute()
     {
-        rotatable.Position += rotatable.RotationalSpeed;
+        rotatable.Inclination += rotatable.RotationalSpeed;
     }
 }
