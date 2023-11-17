@@ -2,34 +2,29 @@
 
 public class Angle
 {
-    public int value { get; set; }
-    public int dim { get; }
+    public int Value { get; set; }
+    public int Dim { get; }
 
-    public Angle(int value, int dim)
+    public Angle(int Value, int Dim)
     {
-        this.value = value % dim;
-        this.dim = dim;
+        this.Value = Value % Dim;
+        this.Dim = Dim;
     }
 
-    public Angle(int value)
+    public Angle(int Value)
     {
-        this.value = value;
-        dim = 8;
+        this.Value = Value;
+        Dim = 8;
     }
 
     public static Angle operator +(Angle ang1, Angle ang2)
-    {
-        if (ang1.dim != ang2.dim)
-        {
-            throw new Exception();
-        }
-
-        return new Angle(ang1.value + ang2.value, ang1.dim);
+    { 
+        return new Angle(ang1.Value + ang2.Value, ang1.Dim);
     }
 
     public static bool operator ==(Angle ang1, Angle ang2)
     {
-        return (ang1.value == ang2.value && ang1.dim == ang2.dim);
+        return (ang1.Value == ang2.Value && ang1.Dim == ang2.Dim);
     }
 
     public static bool operator !=(Angle ang1, Angle ang2)
@@ -39,12 +34,7 @@ public class Angle
 
     public override bool Equals(object? obj)
     {
-        if (obj is Angle angle)
-        {
-            return this == angle;
-        }
-
-        return false;
+        return obj is Angle angle && this == vector;
     }
 
     public override int GetHashCode()
