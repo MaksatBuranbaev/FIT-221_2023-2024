@@ -30,15 +30,7 @@ public class Vector
 
     public static bool operator ==(Vector v1, Vector v2)
     {
-        for (var i = 0; i < v1.array.Length; i++)
-        {
-            if (v1.array[i] != v2.array[i])
-            {
-                return false;
-            }
-        }
-
-        return true;
+        return Enumerable.SequenceEqual(v1.array, v2.array);
     }
 
     public static bool operator !=(Vector v1, Vector v2)
