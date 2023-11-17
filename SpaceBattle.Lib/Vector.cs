@@ -1,4 +1,4 @@
-namespace SpaceBattle.Lib;
+﻿namespace SpaceBattle.Lib;
 
 public class Vector
 {
@@ -30,13 +30,14 @@ public class Vector
 
     public static bool operator ==(Vector v1, Vector v2)
     {
-        for (int i = 0; i < v1.array.Length; i++)
+        for (var i = 0; i < v1.array.Length; i++)
         {
             if (v1.array[i] != v2.array[i])
             {
                 return false;
             }
         }
+
         return true;
     }
 
@@ -47,7 +48,7 @@ public class Vector
 
     public override bool Equals(object? obj)
     {
-        return obj is Vector && this == (Vector)obj;
+        return obj is Vector vector && this == vector;
     }
 
     public override int GetHashCode()

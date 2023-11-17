@@ -1,17 +1,13 @@
-﻿using System.Configuration;
-using System.Data;
-using Microsoft.VisualBasic;
-using Moq;
+﻿using Moq;
 using TechTalk.SpecFlow;
-using Xunit.Sdk;
 namespace SpaceBattle.Lib.Tests;
 
-delegate void F();
+internal delegate void F();
 
 [Binding, Scope(Feature = "Прямолинейное движение")]
 public class MoveCommandTest
 {
-    private Mock<IMovable> movable = new Mock<IMovable>();
+    private readonly Mock<IMovable> movable = new Mock<IMovable>();
     private F? a;
     [Given(@"космический корабль находится в точке пространства с координатами \((.*), (.*)\)")]
     public void ДопустимКосмическийКорабльНаходитсяВТочкеПространстваСКоординатами(int p0, int p1)
@@ -67,7 +63,7 @@ public class MoveCommandTest
 public class VectorTest
 {
     private Vector vec;
-    int hash;
+    private int hash;
     private F? a;
     [Given(@"вектор принимает на вход массив \((.*), (.*)\)")]
     public void ДопустимВекторПринимаетНаВходМассив(int p0, int p1)

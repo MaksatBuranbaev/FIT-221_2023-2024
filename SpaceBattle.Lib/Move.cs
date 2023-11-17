@@ -1,4 +1,4 @@
-namespace SpaceBattle.Lib;
+﻿namespace SpaceBattle.Lib;
 
 public interface IMovable
 {
@@ -8,7 +8,7 @@ public interface IMovable
 
 public class MoveCommand : ICommand
 {
-    private IMovable movable;
+    private readonly IMovable movable;
 
     public MoveCommand(IMovable movable)
     {
