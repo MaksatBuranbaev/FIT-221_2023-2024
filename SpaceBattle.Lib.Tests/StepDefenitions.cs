@@ -1,4 +1,6 @@
-﻿using Moq;
+﻿using System.Collections;
+using Microsoft.VisualBasic;
+using Moq;
 using TechTalk.SpecFlow;
 namespace SpaceBattle.Lib.Tests;
 
@@ -129,4 +131,11 @@ public class VectorTest
     {
         Assert.True(vec.GetHashCode() == hash);
     }
+}
+
+[Binding, Scope(Feature = "Команда начала прямолинейного движения и поворота объектов")]
+public class StartMoveTest
+{
+    Mock<IQueue> _qMock = new Mock<IQueue>();
+    Queue _qReal = new Queue();
 }
