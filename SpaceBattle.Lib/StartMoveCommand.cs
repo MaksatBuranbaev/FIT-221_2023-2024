@@ -18,8 +18,8 @@ registerMC.Execute();
 3. Синглтон
 4. ThreadLocal */
 
-class StartMoveCommand : ICommand {
-    private readonly IMoveStartable _order;
+public class StartMoveCommand : ICommand {
+    private IMoveStartable _order;
 
     public StartMoveCommand(IMoveStartable order) {
         _order = order;
@@ -33,7 +33,7 @@ class StartMoveCommand : ICommand {
         3. записать операцию в таргет
         4. Закинуть команду в очередь */
 
-        IoC.Resolve<ICommand>("OrderTargetSetProperty", _order.UObject, "Velocity", _order.initialVelocity).Execute();
+        //IoC.Resolve<ICommand>("OrderTargetSetProperty", "Velocity", _order.initialVelocity).Execute(); ?
         IoC.Resolve<ICommand>("ChangeVelocity", _order.UObject, _order.initialVelocity).Execute();
 
         var movable = IoC.Resolve<IMovable>("Commands.Movable.Create", _order);
