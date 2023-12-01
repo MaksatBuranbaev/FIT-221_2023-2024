@@ -28,6 +28,14 @@ public class AngleTest
     }
 
     [Fact]
+    public void AngleGetHash()
+    {
+
+        var ang = new Angle(1, 3);
+        Assert.NotEqual(0, ang.GetHashCode());
+    }
+
+    [Fact]
     public void AngleEquals()
     {
         Assert.False((new Angle(1)).Equals(null));

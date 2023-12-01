@@ -34,7 +34,7 @@ public class Angle
 
     public override bool Equals(object? obj)
     {
-        return obj is Angle angle && this == angle;
+        return obj is Angle angle && Value == angle.Value && Dim == angle.Dim;
     }
 
     public override int GetHashCode()
