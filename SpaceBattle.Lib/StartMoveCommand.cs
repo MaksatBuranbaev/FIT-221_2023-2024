@@ -19,7 +19,7 @@ registerMC.Execute();
 4. ThreadLocal */
 
 class StartMoveCommand : ICommand {
-    private IMoveStartable _order;
+    private readonly IMoveStartable _order;
 
     public StartMoveCommand(IMoveStartable order) {
         _order = order;

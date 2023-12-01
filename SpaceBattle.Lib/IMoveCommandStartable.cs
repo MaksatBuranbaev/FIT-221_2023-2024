@@ -6,7 +6,7 @@ public interface IQueue
     ICommand Take();
 }
 
-interface IMoveStartable {
+public interface IMoveStartable {
     IUObject UObject {get;}
 
     Vector initialVelocity {get;}
@@ -16,5 +16,5 @@ interface IMoveStartable {
 
 public interface IUObject
 {
-
+    public object UObject { get; set;}
 }
