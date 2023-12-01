@@ -24,7 +24,7 @@ public class MoveCommandTest
     [Given(@"космический корабль, положение в пространстве которого невозможно определить")]
     public void ДопустимКосмическийКорабльПоложениеВПространствеКоторогоНевозможноОпределить()
     {
-        movable.SetupGet(m => m.Position).Throws<Exception>().Verifiable();
+        movable.Setup(m => m.Position).Throws<Exception>().Verifiable();
     }
 
     [Given(@"имеет мгновенную скорость \((.*), (.*)\)")]
