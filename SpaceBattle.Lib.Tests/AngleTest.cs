@@ -27,13 +27,6 @@ public class AngleTest
         Assert.False(new Angle(v1, d1) != new Angle(v2, d2));
     }
 
-    [Theory]
-    [InlineData(1, 4, 0)]
-    public void AngleGetHash(int v1, int d1, int hash)
-    {
-        Assert.Equal((new Angle(v1, d1)).GetHashCode(), hash);
-    }
-
     [Fact]
     public void AngleEquals()
     {

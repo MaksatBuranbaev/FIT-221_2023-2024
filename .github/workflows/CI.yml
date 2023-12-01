@@ -28,4 +28,3 @@ jobs:
 
       - name: Code Format
         run: dotnet format --verify-no-changes
-        

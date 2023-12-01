@@ -39,6 +39,6 @@ public class Angle
 
     public override int GetHashCode()
     {
-        return 0;
+        return new int[] { Value }.GetHashCode() + new int[] { Dim }.GetHashCode();
     }
 }
