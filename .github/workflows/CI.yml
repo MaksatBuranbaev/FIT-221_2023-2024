@@ -1,4 +1,4 @@
-name: movecommand test
+name: CI
 
 on:
     workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
         run: dotnet restore SpaceBattle.Lib.Tests
 
       - name: Coverage and Tests
-        run: dotnet test --collect:"XPlat Code Coverage"
+        run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
       
       - name: Code Format
         run: dotnet format --verify-no-changes
