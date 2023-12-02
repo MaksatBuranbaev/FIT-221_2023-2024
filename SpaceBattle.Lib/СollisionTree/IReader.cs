@@ -1,6 +1,6 @@
-namespace SpaceBattle.Lib;
+﻿namespace SpaceBattle.Lib;
 
 public interface IReader
 {
-    public int[] Read();
+    public int[][] Read();
 }
