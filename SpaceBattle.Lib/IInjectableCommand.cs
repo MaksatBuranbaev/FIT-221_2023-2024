@@ -2,5 +2,5 @@
 
 public interface IInjectableCommand
 {
-    public void Inject(ICommand cmd)
+    public void Inject(ICommand cmd);
 }
