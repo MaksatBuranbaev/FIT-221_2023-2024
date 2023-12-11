@@ -1,8 +1,8 @@
-﻿namespace SpaceBattle.Lib
+﻿namespace SpaceBattle.Lib;
+
+public interface IEndable
 {
-    public interface IEndable
-    {
-        public InjectCommand cmd { get; }
-        public IUObject target { get; }
-    }
+    public InjectCommand cmd { get; }
+    public IUObject obj { get; }
+    public IEnumerable<string> property { get; }
 }
