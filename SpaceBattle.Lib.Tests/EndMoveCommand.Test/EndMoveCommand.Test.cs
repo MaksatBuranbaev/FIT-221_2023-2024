@@ -2,7 +2,7 @@
 using Hwdtech.Ioc;
 using Moq;
 
-namespace SpaceBattle.Lib;
+namespace SpaceBattle.Lib.Tests;
 
 public class EndCommandTests
 {
@@ -46,7 +46,7 @@ public class EndCommandTests
 
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
-            "DeleteProperty.UObject",
+            "UObject.DeleteProperty",
             (object[] args) =>
             {
                 var obj = (IUObject)args[0];
