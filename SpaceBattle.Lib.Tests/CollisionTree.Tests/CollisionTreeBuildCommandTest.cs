@@ -31,7 +31,7 @@ public class BuildTreeTests
             new int[]{1,1,1},
             new int[]{2,2,2},
             new int[]{1,4,1},
-            new int[]{4,5,2},
+            new int[]{1,5,2},
             new int[]{1,1,2}
         };
         reader.Setup(r => r.Read()).Returns(array);
@@ -39,14 +39,15 @@ public class BuildTreeTests
         new CollisionTreeBuildCommand(reader.Object).Execute();
 
         var treeBuilt = IoC.Resolve<Dictionary<int, object>>("Collision.Tree");
-        Assert.True(IsEqual(new int[] { 1, 2, 4 }, treeBuilt.Keys.ToList()));
-        Assert.True(IsEqual(new int[] { 1, 4 }, ((Dictionary<int, object>)treeBuilt[1]).Keys.ToList()));
-        Assert.True(IsEqual(new int[] { 1, 2 }, ((Dictionary<int, object>)((Dictionary<int, object>)treeBuilt[1])[1]).Keys.ToList()));
+        Assert.True(IsEqual(new List<int>() { 1, 2 }, treeBuilt.Keys.ToList()));
+        Assert.True(IsEqual(new List<int>() { 1, 4, 5 }, ((Dictionary<int, object>)treeBuilt[1]).Keys.ToList()));
+        Assert.True(IsEqual(new List<int>() { 1, 2 }, ((Dictionary<int, object>)((Dictionary<int, object>)treeBuilt[1])[1]).Keys.ToList()));
+        Assert.True(IsEqual(new List<int>() { 2 }, ((Dictionary<int, object>)((Dictionary<int, object>)treeBuilt[2])[2]).Keys.ToList()));
     }
 
-    private static bool IsEqual(int[] ar1, List<int> ar2)
+    private static bool IsEqual(List<int> ar1, List<int> ar2)
     {
-        if (ar1.Length != ar2.Count)
+        if (ar1.Count != ar2.Count)
         {
             return false;
         }
