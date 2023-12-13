@@ -2,5 +2,5 @@ namespace SpaceBattle.Lib;
 
 public interface IUObject
 {
-    public object UObject { get; set;}
+    public object this[string key] { get; set; }
 }
