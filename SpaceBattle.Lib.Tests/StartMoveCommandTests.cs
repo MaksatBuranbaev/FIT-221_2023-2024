@@ -1,10 +1,12 @@
-using Hwdtech;
+﻿using Hwdtech;
 using Hwdtech.Ioc;
 using Moq;
 namespace SpaceBattle.Lib.Tests;
 
-public class StartMoveCommandTests {
-    static StartMoveCommandTests() {
+public class StartMoveCommandTests
+{
+    static StartMoveCommandTests()
+    {
         new InitScopeBasedIoCImplementationCommand().Execute();
 
         IoC.Resolve<Hwdtech.ICommand>(
@@ -12,25 +14,26 @@ public class StartMoveCommandTests {
         IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
         ).Execute();
 
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.Movable.Create", (object[] args) => 
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.Movable.Create", (object[] args) =>
         {
             var movable = new Mock<IMovable>();
             return movable.Object;
-        } ).Execute();
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.MoveCommand.Create", (object[] args) => 
+        }).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.MoveCommand.Create", (object[] args) =>
         {
             var order = new Mock<ICommand>();
             return order.Object;
-        } ).Execute();
+        }).Execute();
         IoC.Resolve<Hwdtech.ICommand>(
-            "IoC.Register", 
-            "OrderTargetSetProperty", 
-            (object[] args)=> {
+            "IoC.Register",
+            "OrderTargetSetProperty",
+            (object[] args) =>
+            {
                 var target = (IUObject)args[0];
                 var name = args[1];
                 var value = args[2];
                 var SetupPropertyCommand = new Mock<ICommand>();
-                SetupPropertyCommand.Setup(spc => spc.Execute()).Callback(new Action(() => 
+                SetupPropertyCommand.Setup(spc => spc.Execute()).Callback(new Action(() =>
                 {
                     var uobj = (IUObject)args[0];
                     var name = (string)args[1];
@@ -38,19 +41,20 @@ public class StartMoveCommandTests {
                     uobj.SetProperty(name, value);
                 }));
 
-                return  SetupPropertyCommand.Object;
+                return SetupPropertyCommand.Object;
             }
         ).Execute();
-        
+
         IoC.Resolve<Hwdtech.ICommand>(
-            "IoC.Register", 
-            "Queue.Add", 
-            (object[] args)=> {
+            "IoC.Register",
+            "Queue.Add",
+            (object[] args) =>
+            {
                 var q = (IQueue)args[0];
                 var val = (ICommand)args[1];
 
                 var QueuePusher = new Mock<ICommand>();
-                
+
                 QueuePusher.Setup(qp => qp.Execute()).Callback(new Action(() => q.Add(val)));
 
                 return QueuePusher.Object;
@@ -58,14 +62,15 @@ public class StartMoveCommandTests {
         ).Execute();
     }
     [Fact]
-    public void СorrectStartMoveCommand(){
+    public void СorrectStartMoveCommand()
+    {
         var moveStartable = new Mock<IMoveStartable>();
         var uobject = new Mock<IUObject>();
         var queue = new Mock<IQueue>();
         var initialVelocity = new Vector(new int[] { 2, 3 });
 
         moveStartable.SetupGet(ms => ms.Queue).Returns(new FakeQueue()).Verifiable();
-        moveStartable.SetupGet(ms=> ms.UObject).Returns(uobject.Object).Verifiable();
+        moveStartable.SetupGet(ms => ms.UObject).Returns(uobject.Object).Verifiable();
         moveStartable.SetupGet(ms => ms.initialVelocity).Returns(initialVelocity).Verifiable();
 
         var startMoveCommand = new StartMoveCommand(moveStartable.Object);
@@ -77,7 +82,8 @@ public class StartMoveCommandTests {
     }
 
     [Fact]
-    public void StartMoveCommand_StartableIsNull_Failed() {
+    public void StartMoveCommand_StartableIsNull_Failed()
+    {
         var initialVelocity = new Vector(new int[] { 2, 3 });
 
         var startMoveCommand = new StartMoveCommand(null!);
@@ -86,7 +92,7 @@ public class StartMoveCommandTests {
     }
 }
 
-public class FakeQueue: IQueue
+public class FakeQueue : IQueue
 {
     private Lib.ICommand _cmd;
     public void Add(Lib.ICommand cmd)

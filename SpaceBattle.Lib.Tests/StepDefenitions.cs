@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Moq;
+﻿using Moq;
 using TechTalk.SpecFlow;
 namespace SpaceBattle.Lib.Tests;
 
