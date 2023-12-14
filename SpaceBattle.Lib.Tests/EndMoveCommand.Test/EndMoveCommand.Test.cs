@@ -6,8 +6,7 @@ namespace SpaceBattle.Lib.Tests;
 
 public class EndCommandTests
 {
-    [Fact]
-    public void EndCommandTest()
+    public EndCommandTests()
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
 
@@ -34,7 +33,7 @@ public class EndCommandTests
 
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
-            "Inject.Command",
+            "Command.Inject",
             (object[] args) =>
             {
                 var cmd = (IInjectableCommand)args[0];
@@ -55,7 +54,11 @@ public class EndCommandTests
                 return "";
             }
         ).Execute();
+    }
 
+    [Fact]
+    public void EndCommandTest()
+    {
         var endable = new Mock<IEndable>();
         var injectCmd = new InjectCommand((new Mock<ICommand>()).Object);
         endable.SetupGet(e => e.cmd).Returns(injectCmd).Verifiable();
@@ -77,19 +80,6 @@ public class EndCommandTests
     [Fact]
     public void InjectCommandTest()
     {
-        new InitScopeBasedIoCImplementationCommand().Execute();
-
-        IoC.Resolve<Hwdtech.ICommand>(
-            "Scopes.Current.Set",
-            IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
-        ).Execute();
-
-        IoC.Resolve<Hwdtech.ICommand>(
-            "IoC.Register",
-            "Command.Empty",
-            (object[] args) => new EmptyCommand()
-        ).Execute();
-
         var cmd = new Mock<ICommand>();
         cmd.Setup(c => c.Execute()).Verifiable();
 
