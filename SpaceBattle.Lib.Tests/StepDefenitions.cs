@@ -18,7 +18,7 @@ public class MoveCommandTest
     [Given(@"изменить положение в пространстве космического корабля невозможно")]
     public void ДопустимИзменитьПоложениеВПространствеКосмическогоКорабляНевозможно()
     {
-        movable.SetupGet(m => m.Position).Throws<Exception>().Verifiable();
+        movable.SetupSet(m => m.Position = It.IsAny<Vector>()).Throws<Exception>().Verifiable();
     }
 
     [Given(@"космический корабль, положение в пространстве которого невозможно определить")]
