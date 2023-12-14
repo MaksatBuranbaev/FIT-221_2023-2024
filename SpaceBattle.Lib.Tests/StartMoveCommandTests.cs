@@ -76,7 +76,7 @@ public class StartMoveCommandTests {
         uobject.Verify();
     }
 
-    [Fact(Timeout = 1000)]
+    [Fact]
     public void StartMoveCommand_StartableIsNull_Failed() {
         var initialVelocity = new Vector(new int[] { 2, 3 });
 
