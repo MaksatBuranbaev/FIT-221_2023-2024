@@ -18,6 +18,7 @@ public class StartMoveCommand : ICommand
         var movable = IoC.Resolve<IMovable>("Commands.Movable.Create", _order);
         var moveCommand = IoC.Resolve<ICommand>("Commands.MoveCommand.Create", movable);
 
-        IoC.Resolve<ICommand>("Queue.Add", _order.Queue, moveCommand).Execute();
+        var injectCommand = IoC.Resolve<InjectCommand>("Inject.Create", moveCommand);
+        IoC.Resolve<ICommand>("Queue.Add", _order.Queue, injectCommand).Execute();
     }
 }
