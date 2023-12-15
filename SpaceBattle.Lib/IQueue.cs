@@ -2,6 +2,6 @@
 
 public interface IQueue
 {
-    void Put(ICommand cmd);
-    ICommand Get();
+    void Add(ICommand cmd);
+    ICommand Take();
 }
