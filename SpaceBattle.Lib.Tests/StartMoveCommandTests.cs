@@ -48,9 +48,9 @@ public class StartMoveCommandTests
             (object[] args) =>
             {
                 var q = (IQueue)args[0];
-                var val = (ICommand)args[1];
+                var value = (ICommand)args[1];
                 var queuePusher = new Mock<ICommand>();
-                queuePusher.Setup(qp => qp.Execute()).Callback(new Action(() => q.Add(val)));
+                queuePusher.Setup(qp => qp.Execute()).Callback(new Action(() => q.Add(value)));
 
                 return queuePusher.Object;
             }
