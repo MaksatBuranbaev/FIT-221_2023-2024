@@ -55,6 +55,16 @@ public class StartMoveCommandTests
                 return queuePusher.Object;
             }
         ).Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Inject.Create",
+            (object[] args) =>
+            {
+                var inject = new InjectCommand((ICommand)args[0]);
+                return inject;
+            }
+        ).Execute();
     }
     [Fact]
     public void СorrectStartMoveCommand()
@@ -84,6 +94,19 @@ public class StartMoveCommandTests
         var startMoveCommand = new StartMoveCommand(null!);
 
         Assert.ThrowsAny<Exception>(() => startMoveCommand.Execute());
+    }
+
+    [Fact]
+    public void InjectCommandTest()
+    {
+        var cmd = new Mock<ICommand>();
+        cmd.Setup(c => c.Execute()).Verifiable();
+
+        var injectCommand = new InjectCommand(cmd.Object);
+        injectCommand.Inject(new Mock<ICommand>().Object);
+        injectCommand.Execute();
+
+        cmd.Verify(c => c.Execute(), Times.Never);
     }
 }
 
