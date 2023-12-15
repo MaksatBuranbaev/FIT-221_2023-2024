@@ -16,6 +16,6 @@ public class InjectCommand : ICommand, IInjectableCommand
 
     public void Inject(ICommand cmd)
     {
-        _cmd = cmd
+        _cmd = cmd;
     }
 }
