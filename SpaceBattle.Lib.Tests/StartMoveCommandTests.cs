@@ -29,19 +29,16 @@ public class StartMoveCommandTests
             "OrderTargetSetProperty",
             (object[] args) =>
             {
-                var target = (IUObject)args[0];
-                var name = args[1];
+                var uobj = (IUObject)args[0];
+                var name = (string)args[1];
                 var value = args[2];
-                var SetupPropertyCommand = new Mock<ICommand>();
-                SetupPropertyCommand.Setup(spc => spc.Execute()).Callback(new Action(() =>
+                var setupPropertyCommand = new Mock<ICommand>();
+                setupPropertyCommand.Setup(spc => spc.Execute()).Callback(new Action(() =>
                 {
-                    var uobj = (IUObject)args[0];
-                    var name = (string)args[1];
-                    var value = args[2];
                     uobj.SetProperty(name, value);
                 }));
 
-                return SetupPropertyCommand.Object;
+                return setupPropertyCommand.Object;
             }
         ).Execute();
 
@@ -52,12 +49,10 @@ public class StartMoveCommandTests
             {
                 var q = (IQueue)args[0];
                 var val = (ICommand)args[1];
+                var queuePusher = new Mock<ICommand>();
+                queuePusher.Setup(qp => qp.Execute()).Callback(new Action(() => q.Add(val)));
 
-                var QueuePusher = new Mock<ICommand>();
-
-                QueuePusher.Setup(qp => qp.Execute()).Callback(new Action(() => q.Add(val)));
-
-                return QueuePusher.Object;
+                return queuePusher.Object;
             }
         ).Execute();
     }
