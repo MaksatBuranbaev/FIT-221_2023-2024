@@ -70,7 +70,7 @@ public class EndCommandTests
         var dict = new Dictionary<string, object>();
         obj.Setup(o => o.SetProperty(It.IsAny<string>(), It.IsAny<object>())).Callback<string, object>((key, value) => dict.Add(key, value));
         obj.Setup(o => o.DeleteProperty(It.IsAny<string>())).Callback<string>((string key) => dict.Remove(key));
-        obj.Object.SetProperty("Move", "");
+        obj.Object.SetProperty("Move", new Mock<ICommand>());
 
         IoC.Resolve<ICommand>("Command.EndMove", endable.Object).Execute();
 
