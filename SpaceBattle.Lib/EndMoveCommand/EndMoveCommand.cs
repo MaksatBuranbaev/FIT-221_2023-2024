@@ -13,7 +13,7 @@ public class EndMoveCommand : ICommand
 
     public void Execute()
     {
-        IoC.Resolve<string>("UObject.DeleteProperty", _endable.obj, _endable.property);
+        IoC.Resolve<ICommand>("UObject.DeleteProperty", _endable.obj, _endable.property).Execute();
         var cmd = _endable.cmd;
         var emptyCommand = IoC.Resolve<ICommand>("Command.Empty");
         IoC.Resolve<IInjectableCommand>("Command.Inject", cmd, emptyCommand);
