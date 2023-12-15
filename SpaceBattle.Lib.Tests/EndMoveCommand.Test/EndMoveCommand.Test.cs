@@ -53,7 +53,7 @@ public class EndCommandTests
                 var deletePropertyCmd = new Mock<ICommand>();
                 deletePropertyCmd.Setup(dp => dp.Execute()).Callback(new Action(() =>
                 {
-                    properties.ForEach(p => obj.DeleteProperty(p));;
+                    properties.ForEach(p => obj.DeleteProperty(p));
                 }));
                 return deletePropertyCmd.Object;
             }
