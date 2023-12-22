@@ -42,22 +42,6 @@ public class EndCommandTests
                 return cmd;
             }
         ).Execute();
-
-        IoC.Resolve<Hwdtech.ICommand>(
-            "IoC.Register",
-            "UObject.DeleteProperty",
-            (object[] args) =>
-            {
-                var obj = (IUObject)args[0];
-                var properties = (List<string>)args[1];
-                var deletePropertyCmd = new Mock<ICommand>();
-                deletePropertyCmd.Setup(dp => dp.Execute()).Callback(new Action(() =>
-                {
-                    properties.ForEach(p => obj.DeleteProperty(p));
-                }));
-                return deletePropertyCmd.Object;
-            }
-        ).Execute();
     }
 
     [Fact]
