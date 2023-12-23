@@ -1,19 +1,40 @@
-using Hwdtech;
+﻿using Hwdtech;
 namespace SpaceBattle.Lib;
 
 public class СollisionСheckСommand : ICommand
 {
-    private Dictionary<int, object> _UOb1, _UOb2;
+    private readonly IUObject _uOb1, _uOb2;
 
-    public СollisionСheckСommand(Dictionary<int, object> UOb1, Dictionary<int, object> UOb2)
+    public СollisionСheckСommand(IUObject uOb1, IUObject uOb2)
     {
-        _UOb1 = UOb1;
-        _UOb2 = UOb2;
+        _uOb1 = uOb1;
+        _uOb2 = uOb2;
     }
 
     public void Execute()
     {
-        var result = IoC.Resolve<bool>("Game.CheckCollision", _UOb1, _UOb2);
+        var result = true;
+
+        var p1 = IoC.Resolve<Vector>("UObject1TargetGetProperty", _uOb1, "Position");
+        var p2 = IoC.Resolve<Vector>("UObject2TargetGetProperty", _uOb2, "Position");
+        var v1 = IoC.Resolve<Vector>("UObject1TargetGetProperty", _uOb1, "Velocity");
+        var v2 = IoC.Resolve<Vector>("UObject2TargetGetProperty", _uOb1, "Velocity");
+
+        var vector = IoC.Resolve<List<int>>("DifferenceVector", p1, p2, v1, v2);
+        var node = IoC.Resolve<Dictionary<int, object>>("CollisionTree");
+
+        vector.ForEach(n =>
+        {
+            try
+            {
+                node = (Dictionary<int, object>)node[n];
+            }
+
+            catch
+            {
+                result = false;
+            }
+        });
 
         if (result)
         {
