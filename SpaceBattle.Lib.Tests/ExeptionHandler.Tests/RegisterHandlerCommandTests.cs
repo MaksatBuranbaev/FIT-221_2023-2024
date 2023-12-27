@@ -76,7 +76,7 @@ public class RegisterHandlerCommandTest
             );
 
         var handler2 = new Mock<IExceptionHandler>();
-        var cmd2 = new Mock<RotateCommand>();
+        var cmd2 = new Mock<IInjectableCommand>();
 
         new RegisterHandlerCommand(cmd2.Object.GetType(), typeof(Exception), handler2.Object).Execute();
 
