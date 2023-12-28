@@ -48,7 +48,11 @@ public class EndCommandTests
     public void EndCommandTest()
     {
         var endable = new Mock<IEndable>();
-        var injectCmd = new InjectCommand((new Mock<ICommand>()).Object);
+
+        var cmd = new Mock<ICommand>();
+        cmd.Setup(c => c.Execute()).Verifiable();
+
+        var injectCmd = new InjectCommand(cmd.Object);
         endable.SetupGet(e => e.cmd).Returns(injectCmd).Verifiable();
         var obj = new Mock<IUObject>();
         endable.SetupGet(e => e.obj).Returns(obj.Object).Verifiable();
@@ -62,7 +66,10 @@ public class EndCommandTests
 
         IoC.Resolve<ICommand>("Command.EndMove", endable.Object).Execute();
 
+        injectCmd.Execute();
+
         Assert.Empty(dict);
+        cmd.Verify(c => c.Execute(), Times.Never);
     }
 
     [Fact]
