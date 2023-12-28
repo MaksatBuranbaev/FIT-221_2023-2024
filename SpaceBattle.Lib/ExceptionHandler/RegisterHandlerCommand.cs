@@ -4,23 +4,23 @@ namespace SpaceBattle.Lib;
 
 public class RegisterHandlerCommand : ICommand
 {
-    private readonly Type _cmdType;
-    private readonly Type _exceptionType;
+    private readonly Type[] _types;
     private readonly IExceptionHandler _exceptionHandler;
 
-    public RegisterHandlerCommand(Type cmdType, Type exceptionType, IExceptionHandler exceptionHandler)
+    public RegisterHandlerCommand(Type[] types, IExceptionHandler exceptionHandler)
     {
-        _cmdType = cmdType;
-        _exceptionType = exceptionType;
+        _types = types;
         _exceptionHandler = exceptionHandler;
     }
 
     public void Execute()
     {
-        var exceptionTree = IoC.Resolve<Dictionary<Type, object>>("ExceptionHandler.Tree");
-        exceptionTree[_cmdType] = exceptionTree.GetValueOrDefault(_cmdType, new Dictionary<Type, object>());
-
-        var node = (Dictionary<Type, object>)exceptionTree[_cmdType];
-        node[_exceptionType] = node.GetValueOrDefault(_exceptionType, _exceptionHandler);
+        var key = "";
+        _types.ToList().ForEach(type =>
+        {
+            key += type.ToString();
+        });
+        var exceptionTree = IoC.Resolve<Dictionary<string, IExceptionHandler>>("ExceptionHandler.Tree");
+        exceptionTree[key] = exceptionTree.GetValueOrDefault(key, _exceptionHandler);
     }
 }

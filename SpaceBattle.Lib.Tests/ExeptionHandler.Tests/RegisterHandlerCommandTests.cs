@@ -16,7 +16,7 @@ public class RegisterHandlerCommandTest
             IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
         ).Execute();
 
-        var exceptionTree = new Dictionary<Type, object>();
+        var exceptionTree = new Dictionary<string, IExceptionHandler>();
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
             "ExceptionHandler.Tree",
@@ -29,16 +29,11 @@ public class RegisterHandlerCommandTest
         var handler = new Mock<IExceptionHandler>();
         var cmd = new Mock<ICommand>();
 
-        new RegisterHandlerCommand(cmd.Object.GetType(), typeof(Exception), handler.Object).Execute();
+        new RegisterHandlerCommand(new Type[]{cmd.Object.GetType(), typeof(Exception)}, handler.Object).Execute();
 
-        Assert.True(exceptionTree.ContainsKey(cmd.Object.GetType()));
-        Assert.True(
-            ((Dictionary<Type, object>)exceptionTree[cmd.Object.GetType()]).ContainsKey(typeof(Exception))
-            );
-        Assert.Equal(
-            (IExceptionHandler)((Dictionary<Type, object>)exceptionTree[cmd.Object.GetType()])[typeof(Exception)],
-            handler.Object
-            );
+        string key = cmd.Object.GetType().ToString() + typeof(Exception).ToString();
+        Assert.True(exceptionTree.ContainsKey(key));
+        Assert.Equal(exceptionTree[key], handler.Object);
     }
 
     [Fact]
@@ -51,7 +46,7 @@ public class RegisterHandlerCommandTest
             IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
         ).Execute();
 
-        var exceptionTree = new Dictionary<Type, object>();
+        var exceptionTree = new Dictionary<string, IExceptionHandler>();
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
             "ExceptionHandler.Tree",
@@ -64,29 +59,22 @@ public class RegisterHandlerCommandTest
         var handler1 = new Mock<IExceptionHandler>();
         var cmd1 = new Mock<ICommand>();
 
-        new RegisterHandlerCommand(cmd1.Object.GetType(), typeof(Exception), handler1.Object).Execute();
+        new RegisterHandlerCommand(new Type[]{cmd1.Object.GetType(), typeof(Exception)}, handler1.Object).Execute();
 
-        Assert.True(exceptionTree.ContainsKey(cmd1.Object.GetType()));
-        Assert.True(
-            ((Dictionary<Type, object>)exceptionTree[cmd1.Object.GetType()]).ContainsKey(typeof(Exception))
-            );
-        Assert.Equal(
-            (IExceptionHandler)((Dictionary<Type, object>)exceptionTree[cmd1.Object.GetType()])[typeof(Exception)],
-            handler1.Object
-            );
-
+        string key1 = cmd1.Object.GetType().ToString() + typeof(Exception).ToString();
+        
         var handler2 = new Mock<IExceptionHandler>();
         var cmd2 = new Mock<IInjectableCommand>();
 
-        new RegisterHandlerCommand(cmd2.Object.GetType(), typeof(Exception), handler2.Object).Execute();
+        new RegisterHandlerCommand(new Type[]{cmd2.Object.GetType(), typeof(Exception)}, handler2.Object).Execute();
 
-        Assert.True(exceptionTree.ContainsKey(cmd2.Object.GetType()));
-        Assert.True(
-            ((Dictionary<Type, object>)exceptionTree[cmd2.Object.GetType()]).ContainsKey(typeof(Exception))
-            );
-        Assert.Equal(
-            (IExceptionHandler)((Dictionary<Type, object>)exceptionTree[cmd2.Object.GetType()])[typeof(Exception)],
-            handler2.Object
-            );
+        string key2 = cmd2.Object.GetType().ToString() + typeof(Exception).ToString();
+        
+        
+        Assert.True(exceptionTree.ContainsKey(key1));
+        Assert.Equal(exceptionTree[key1], handler1.Object);
+
+        Assert.True(exceptionTree.ContainsKey(key2));
+        Assert.Equal(exceptionTree[key2], handler2.Object);
     }
 }
