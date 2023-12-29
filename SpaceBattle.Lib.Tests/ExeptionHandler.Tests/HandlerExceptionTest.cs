@@ -38,7 +38,7 @@ public class HandlerExceptionStrategyTest
     }
 
     [Fact]
-    public void ExceptionHandler()
+    public void ExceptionExceptionHandler()
     {
         var tree = new Dictionary<string, IExceptionHandler>();
         var mockHandler = new Mock<IExceptionHandler>();
