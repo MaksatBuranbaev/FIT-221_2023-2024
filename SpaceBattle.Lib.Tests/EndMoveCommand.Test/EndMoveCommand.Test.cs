@@ -47,12 +47,24 @@ public class EndCommandTests
     [Fact]
     public void EndCommandTest()
     {
+        var queue = new Queue<ICommand>();
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Queue.Pop",
+            (object[] args) =>
+            {
+                var q = (Queue<ICommand>)args[0];
+                return q.Dequeue();
+            }
+        ).Execute();
+
         var endable = new Mock<IEndable>();
 
         var cmd = new Mock<ICommand>();
         cmd.Setup(c => c.Execute()).Verifiable();
 
         var injectCmd = new InjectCommand(cmd.Object);
+        queue.Enqueue(injectCmd);
         endable.SetupGet(e => e.cmd).Returns(injectCmd).Verifiable();
         var obj = new Mock<IUObject>();
         endable.SetupGet(e => e.obj).Returns(obj.Object).Verifiable();
@@ -66,9 +78,10 @@ public class EndCommandTests
 
         IoC.Resolve<ICommand>("Command.EndMove", endable.Object).Execute();
 
-        injectCmd.Execute();
+        IoC.Resolve<ICommand>("Queue.Pop", queue).Execute();
 
         Assert.Empty(dict);
+        Assert.Empty(queue);
         cmd.Verify(c => c.Execute(), Times.Never);
     }
 
