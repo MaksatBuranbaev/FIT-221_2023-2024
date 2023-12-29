@@ -55,20 +55,6 @@ public class LongOperationTests
 
         IoC.Resolve<ICommand>(
             "IoC.Register",
-            "Command.LongOperation",
-            (object[] args) =>
-            {
-                var mC = (Lib.ICommand)args[0];
-                var cL = (List<Lib.ICommand>)args[1];
-                var injectCommand = IoC.Resolve<Lib.ICommand>("Inject.Create", mC);
-                var repeatCommand = IoC.Resolve<Lib.ICommand>("Command.Repeat", injectCommand);
-                cL.Add(repeatCommand);
-                return injectCommand;
-            }
-        ).Execute();
-
-        IoC.Resolve<ICommand>(
-            "IoC.Register",
             "Operation." + name,
             (object[] args) =>
             {
