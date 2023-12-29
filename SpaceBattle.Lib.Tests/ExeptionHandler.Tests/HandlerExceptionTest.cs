@@ -1,7 +1,7 @@
-namespace SpaceBattle.Lib.Tests;
-using Moq;
+﻿namespace SpaceBattle.Lib.Tests;
 using Hwdtech;
 using Hwdtech.Ioc;
+using Moq;
 
 public class HandlerExceptionStrategyTest
 {

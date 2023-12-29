@@ -17,9 +17,9 @@ public class HandlerExceptionStrategy : IStrategy
             return handler;
         }
 
-        else if(tree.TryGetValue(_keyException, out handler))
+        else if (tree.TryGetValue(_keyException, out handler))
         {
-           return handler;
+            return handler;
         }
 
         else
