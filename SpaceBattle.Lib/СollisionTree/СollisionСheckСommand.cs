@@ -13,6 +13,7 @@ public class СollisionСheckСommand : ICommand
 
     public void Execute()
     {
+        var coll = true;
         var p1 = IoC.Resolve<Vector>("UObject1TargetGetProperty", _uOb1, "Position");
         var p2 = IoC.Resolve<Vector>("UObject2TargetGetProperty", _uOb2, "Position");
         var v1 = IoC.Resolve<Vector>("UObject1TargetGetProperty", _uOb1, "Velocity");
@@ -30,8 +31,13 @@ public class СollisionСheckСommand : ICommand
 
             else
             {
-                IoC.Resolve<ICommand>("Event.Collision", _uOb1, _uOb2).Execute();
+                coll = false;
             }
         });
+
+        if (coll)
+        {
+            IoC.Resolve<ICommand>("Event.Collision", _uOb1, _uOb2).Execute();
+        }
     }
 }
