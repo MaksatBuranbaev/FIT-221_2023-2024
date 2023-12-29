@@ -45,6 +45,11 @@ public class СollisionСheckСommandTests
         }).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "UObject1TargetGetProperty", (object[] args) => v1).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "UObject2TargetGetProperty", (object[] args) => v2).Execute();
+
+        var mockCommand = new Mock<Lib.ICommand>();
+        mockCommand.Setup(x => x.Execute());
+
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Event.Collision", (object[] args) => mockCommand.Object).Execute();
     }
     [Fact]
     public void СorrectСollisionСheckСommand()
@@ -56,7 +61,8 @@ public class СollisionСheckСommandTests
 
         var ccm = new СollisionСheckСommand(uOb1.Object, uOb2.Object);
 
-        Assert.ThrowsAny<Exception>(() => ccm.Execute());
+        ccm.Execute();
+
     }
 
     [Fact]
