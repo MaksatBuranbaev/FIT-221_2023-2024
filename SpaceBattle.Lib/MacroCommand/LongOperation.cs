@@ -13,7 +13,7 @@ public class LongOperation : IStrategy
         var macroCommand = IoC.Resolve<ICommand>("Command.Macro", commandsList);
         var injectCommand = new InjectCommand(macroCommand);
         var repeatCommand = new RepeatCommand(injectCommand);
-        var longOperationCommand = IoC.Resolve<ICommand>("Command.Macro", new List<ICommand> { repeatCommand });
+        var longOperationCommand = IoC.Resolve<ICommand>("Command.Macro", new List<ICommand> { injectCommand, repeatCommand });
         return longOperationCommand;
     }
 }
