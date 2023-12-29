@@ -13,8 +13,6 @@ public class СollisionСheckСommand : ICommand
 
     public void Execute()
     {
-        var result = true;
-
         var p1 = IoC.Resolve<Vector>("UObject1TargetGetProperty", _uOb1, "Position");
         var p2 = IoC.Resolve<Vector>("UObject2TargetGetProperty", _uOb2, "Position");
         var v1 = IoC.Resolve<Vector>("UObject1TargetGetProperty", _uOb1, "Velocity");
@@ -25,20 +23,15 @@ public class СollisionСheckСommand : ICommand
 
         vector.ForEach(n =>
         {
-            try
+            if (node.ContainsKey(n))
             {
                 node = (Dictionary<int, object>)node[n];
             }
 
-            catch
+            else
             {
-                result = false;
+                IoC.Resolve<ICommand>("Event.Collision", _uOb1, _uOb2).Execute();
             }
         });
-
-        if (result)
-        {
-            IoC.Resolve<ICommand>("Event.Collision", _uOb1, _uOb2).Execute();
-        }
     }
 }
