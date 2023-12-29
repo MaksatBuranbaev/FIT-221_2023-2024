@@ -38,7 +38,7 @@ public class СollisionСheckСommand : ICommand
 
         if (result)
         {
-            throw new Exception("Object 1 and object 2 collided");
+            IoC.Resolve<ICommand>("Event.Collision", _uOb1, _uOb2).Execute();
         }
     }
 }
