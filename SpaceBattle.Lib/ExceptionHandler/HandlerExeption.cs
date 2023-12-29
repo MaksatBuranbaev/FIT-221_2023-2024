@@ -5,21 +5,21 @@ public class HandlerExceptionStrategy : IStrategy
 {
     public object Run(params object[] args)
     {
-        IExceptionHandler handler;
-
         var _keyCmd = args[0].ToString();
         var _keyException = args[1].ToString();
 
         var tree = IoC.Resolve<Dictionary<string, IExceptionHandler>>("ExceptionHandler.Tree");
 
-        if (tree.TryGetValue(_keyCmd, out handler))
+        if (tree.ContainsKey(_keyCmd))
         {
-            return handler;
+            var handlerCmd = tree[_keyCmd];
+            return handlerCmd;
         }
 
-        else if (tree.TryGetValue(_keyException, out handler))
+        else if (tree.ContainsKey(_keyException))
         {
-            return handler;
+            var handlerExc = tree[_keyException];
+            return handlerExc;
         }
 
         else
