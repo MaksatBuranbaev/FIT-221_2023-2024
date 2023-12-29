@@ -34,8 +34,7 @@ public class HandlerExceptionStrategyTest
         tree.Add(mockCommand.ToString(), mockHandler.Object);
 
         var handler = IoC.Resolve<IExceptionHandler>("ExceptionHandler.Find", mockCommand, mockException);
-
-        handler.Handle();
+        Assert.Equal(mockHandler.Object, handler);
     }
 
     [Fact]
@@ -58,7 +57,7 @@ public class HandlerExceptionStrategyTest
 
         var handler = IoC.Resolve<IExceptionHandler>("ExceptionHandler.Find", mockCommand, mockException);
 
-        handler.Handle();
+        Assert.Equal(mockHandler.Object, handler);
     }
 
     [Fact]
@@ -84,5 +83,7 @@ public class HandlerExceptionStrategyTest
         handler.Handle();
 
         mockHandler.Verify(mc => mc.Handle(), Times.Once());
+
+        Assert.Equal(mockHandler.Object, handler);
     }
 }
