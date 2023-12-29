@@ -9,48 +9,80 @@ public class HandlerExceptionStrategyTest
     {
         new InitScopeBasedIoCImplementationCommand().Execute();
 
-        IoC.Resolve<ICommand>("Scopes.Current.Set",
+        IoC.Resolve<Hwdtech.ICommand>(
+            "Scopes.Current.Set",
             IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
         ).Execute();
-
-
-        var defaultHandler = new Mock<IExceptionHandler>();
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Commands.Handler", (object[] args) => { return defaultHandler.Object; }).Execute();
     }
 
     [Fact]
-    public void SuccesfullFindHandler()
+    public void ICommandExceptionHandler()
     {
         var tree = new Dictionary<string, IExceptionHandler>();
         var mockHandler = new Mock<IExceptionHandler>();
 
-        var defaultHandler = new Mock<IExceptionHandler>();
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "DefaultExceptionHandler", (object[] args) => { return defaultHandler.Object; }).Execute();
+        var mockCommand = new Mock<ICommand>();
+        var mockException = new Mock<Exception>();
 
-        IoC.Resolve<ICommand>("IoC.Register", "Exception.Handler.Tree", (object[] args) => tree).Execute();
-        IoC.Resolve<ICommand>("IoC.Register", "Exception.Handler.Find",
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "DefaultExceptionHandler", (object[] args) => { return mockHandler.Object; }).Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "ExceptionHandler.Tree", (object[] args) => tree).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "ExceptionHandler.Find",
+            (object[] args) => new HandlerExceptionStrategy().Run(args)
+        ).Execute();
+
+        tree.Add(mockCommand.ToString(), mockHandler.Object);
+
+        var handler = IoC.Resolve<IExceptionHandler>("ExceptionHandler.Find", mockCommand, mockException);
+
+        handler.Handle();
+    }
+
+    [Fact]
+    public void ExceptionHandler()
+    {
+        var tree = new Dictionary<string, IExceptionHandler>();
+        var mockHandler = new Mock<IExceptionHandler>();
+
+        var mockCommand = new Mock<ICommand>();
+        var mockException = new Mock<Exception>();
+
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "DefaultExceptionHandler", (object[] args) => { return mockHandler.Object; }).Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "ExceptionHandler.Tree", (object[] args) => tree).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "ExceptionHandler.Find",
+            (object[] args) => new HandlerExceptionStrategy().Run(args)
+        ).Execute();
+
+        tree.Add(mockException.ToString(), mockHandler.Object);
+
+        var handler = IoC.Resolve<IExceptionHandler>("ExceptionHandler.Find", mockCommand, mockException);
+
+        handler.Handle();
+    }
+
+    [Fact]
+    public void DefaultExceptionHandler()
+    {
+        var tree = new Dictionary<string, IExceptionHandler>();
+        var mockHandler = new Mock<IExceptionHandler>();
+
+        var mockCommand = new Mock<ICommand>();
+        var mockException = new Mock<Exception>();
+
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "DefaultExceptionHandler", (object[] args) => { return mockHandler.Object; }).Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "ExceptionHandler.Tree", (object[] args) => tree).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "ExceptionHandler.Find",
             (object[] args) => new HandlerExceptionStrategy().Run(args)
         ).Execute();
 
         tree.Add(mockHandler.ToString(), mockHandler.Object);
 
-        Assert.Equal(mockHandler.Object, IoC.Resolve<IExceptionHandler>("Exception.Handler.Find"));
-    }
+        var handler = IoC.Resolve<IExceptionHandler>("ExceptionHandler.Find", mockCommand, mockException);
 
-    [Fact]
-    public void FindDefaultHandler()
-    {
-        var tree = new Dictionary<string, IExceptionHandler>();
-        var mockHandler = new Mock<IExceptionHandler>();
+        handler.Handle();
 
-        tree.Add(mockHandler.ToString(), mockHandler.Object);
-
-        IoC.Resolve<ICommand>("IoC.Register", "Exception.Handler.Tree", (object[] args) => tree).Execute();
-        IoC.Resolve<ICommand>("IoC.Register", "Exception.Handler.Find",
-            (object[] args) => new HandlerExceptionStrategy().Run(args)
-        ).Execute();
-
-
-        Assert.Equal(mockHandler.Object, IoC.Resolve<IExceptionHandler>("Exception.Handler.Find"));
+        mockHandler.Verify(mc => mc.Handle(), Times.Once());
     }
 }
