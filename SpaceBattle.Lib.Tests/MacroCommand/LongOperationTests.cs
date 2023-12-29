@@ -1,9 +1,9 @@
-namespace SpaceBattle.Lib.Tests;
-using Moq;
+﻿namespace SpaceBattle.Lib.Tests;
 using Hwdtech;
 using Hwdtech.Ioc;
+using Moq;
 
-public class LongOperationTests 
+public class LongOperationTests
 {
     public LongOperationTests()
     {
@@ -56,10 +56,10 @@ public class LongOperationTests
         IoC.Resolve<ICommand>(
             "IoC.Register",
             "Command.LongOperation",
-            (object[] args) => 
+            (object[] args) =>
             {
-                var mC = (Lib.ICommand) args[0];
-                var cL = (List<Lib.ICommand>) args[1];
+                var mC = (Lib.ICommand)args[0];
+                var cL = (List<Lib.ICommand>)args[1];
                 var injectCommand = IoC.Resolve<Lib.ICommand>("Inject.Create", mC);
                 var repeatCommand = IoC.Resolve<Lib.ICommand>("Command.Repeat", injectCommand);
                 cL.Add(repeatCommand);
@@ -70,7 +70,7 @@ public class LongOperationTests
         IoC.Resolve<ICommand>(
             "IoC.Register",
             "Operation." + name,
-            (object[] args) => 
+            (object[] args) =>
             {
                 var loc = new LongOperation();
                 var lo = loc.Run(args);
