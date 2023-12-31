@@ -45,15 +45,13 @@ public class СollisionСheckСommandTests
         }).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "UObject1TargetGetProperty", (object[] args) => v1).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "UObject2TargetGetProperty", (object[] args) => v2).Execute();
-
-        var mockCommand = new Mock<Lib.ICommand>();
-        mockCommand.Setup(x => x.Execute());
-
-        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Event.Collision", (object[] args) => mockCommand.Object).Execute();
     }
     [Fact]
     public void СorrectСollisionСheckСommand()
     {
+        var mockCommand = new Mock<Lib.ICommand>();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Event.Collision", (object[] args) => mockCommand.Object).Execute();
+
         v1 = new Vector(new int[] { 1, 1 });
         v2 = new Vector(new int[] { 1, 1 });
         var uOb1 = new Mock<IUObject>();
@@ -62,12 +60,14 @@ public class СollisionСheckСommandTests
         var ccm = new СollisionСheckСommand(uOb1.Object, uOb2.Object);
 
         ccm.Execute();
-
+        mockCommand.Verify();
     }
 
     [Fact]
     public void IncorrectСollisionСheckСommand()
     {
+        var mockCommand = new Mock<Lib.ICommand>();
+
         v1 = new Vector(new int[] { 1, 1 });
         v2 = new Vector(new int[] { 3, 4 });
         var uOb1 = new Mock<IUObject>();
@@ -76,5 +76,6 @@ public class СollisionСheckСommandTests
         var ccm = new СollisionСheckСommand(uOb1.Object, uOb2.Object);
 
         ccm.Execute();
+        mockCommand.Verify(mc => mc.Execute(), Times.Never());
     }
 }
