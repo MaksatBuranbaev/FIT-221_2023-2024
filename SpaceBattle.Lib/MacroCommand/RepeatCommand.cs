@@ -3,11 +3,11 @@ using Hwdtech;
 
 public class RepeatCommand : ICommand
 {
-    private readonly ICommand _cmd;
+    private readonly List<ICommand> _cmd = new() { };
 
-    public RepeatCommand(ICommand cmd)
+    public void Add(ICommand cmd)
     {
-        _cmd = cmd;
+        _cmd.Add(cmd);
     }
     public void Execute()
     {
