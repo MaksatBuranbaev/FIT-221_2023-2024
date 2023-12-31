@@ -22,6 +22,12 @@ public class HandlerExceptionStrategy : IStrategy
             return handlerExc;
         }
 
+        else if (tree.ContainsKey(_keyCmd + _keyException))
+        {
+            var handlerCmdExc = tree[_keyCmd + _keyException];
+            return handlerCmdExc;
+        }
+
         else
         {
             return IoC.Resolve<IExceptionHandler>("DefaultExceptionHandler");
