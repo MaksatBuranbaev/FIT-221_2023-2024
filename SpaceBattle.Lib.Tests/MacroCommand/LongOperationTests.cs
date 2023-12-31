@@ -27,9 +27,9 @@ public class LongOperationTests
             (object[] args) =>
             {
                 var q = IoC.Resolve<FakeQueue>("Queue");
-                var cmd = (List<Lib.ICommand>)args[0];
+                var cmd = (Lib.ICommand)args[0];
                 var queuePusher = new Mock<Lib.ICommand>();
-                queuePusher.Setup(qp => qp.Execute()).Callback(new Action(() => q.Add(cmd[0])));
+                queuePusher.Setup(qp => qp.Execute()).Callback(new Action(() => q.Add(cmd)));
 
                 return queuePusher.Object;
             }
