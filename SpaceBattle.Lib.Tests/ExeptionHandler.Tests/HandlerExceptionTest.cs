@@ -16,7 +16,7 @@ public class HandlerExceptionStrategyTest
     }
 
     [Fact]
-    public void ICommandExceptionHandler()
+    public void CommandExceptionHandler()
     {
         var tree = new Dictionary<string, IExceptionHandler>();
         var mockHandler = new Mock<IExceptionHandler>();
@@ -54,6 +54,29 @@ public class HandlerExceptionStrategyTest
         ).Execute();
 
         tree.Add(mockException.ToString(), mockHandler.Object);
+
+        var handler = IoC.Resolve<IExceptionHandler>("ExceptionHandler.Find", mockCommand, mockException);
+
+        Assert.Equal(mockHandler.Object, handler);
+    }
+
+    [Fact]
+    public void CommandAndExceptionExceptionHandler()
+    {
+        var tree = new Dictionary<string, IExceptionHandler>();
+        var mockHandler = new Mock<IExceptionHandler>();
+
+        var mockCommand = new Mock<ICommand>();
+        var mockException = new Mock<Exception>();
+
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "DefaultExceptionHandler", (object[] args) => { return mockHandler.Object; }).Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "ExceptionHandler.Tree", (object[] args) => tree).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "ExceptionHandler.Find",
+            (object[] args) => new HandlerExceptionStrategy().Run(args)
+        ).Execute();
+
+        tree.Add(mockCommand.ToString() + mockException.ToString(), mockHandler.Object);
 
         var handler = IoC.Resolve<IExceptionHandler>("ExceptionHandler.Find", mockCommand, mockException);
 
