@@ -178,12 +178,12 @@ public class ServerThreadTest
         var st = (ServerThread)threads[3];
         var act2 = () => Console.WriteLine("Stop!");
 
-        var stop = new Mock<ICommand>();
-        stop.Setup(s => s.Execute()).Callback(new Action(() => 
+        var cmd0 = new Mock<ICommand>();
+        cmd0.Setup(s => s.Execute()).Callback(new Action(() => 
             {
                 Console.WriteLine("1234");
             }));
-        IoC.Resolve<ICommand>("SendCommand", 3, stop.Object).Execute();
+        IoC.Resolve<ICommand>("SendCommand", 3, cmd0.Object).Execute();
 
         IoC.Resolve<ICommand>("SoftStopTheThread", 3, act2).Execute();
 
@@ -197,7 +197,7 @@ public class ServerThreadTest
         IoC.Resolve<ICommand>("SendCommand", 3, cmd2.Object).Execute();
         Thread.Sleep(2);
 
-        stop.Verify();
+        cmd0.Verify();
         cmd1.Verify();
         cmd2.Verify();
         Assert.True(threads.Count == 0);
