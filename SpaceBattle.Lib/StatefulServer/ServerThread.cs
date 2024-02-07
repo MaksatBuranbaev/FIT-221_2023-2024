@@ -7,13 +7,13 @@ public class ServerThread
     private readonly Thread _t;
     private readonly BlockingCollection<ICommand> _q;
     private readonly int _id;
-    private bool stop = false;
-    private Action strategy;
+    private bool _stop = false;
+    private Action _strategy;
     public ServerThread(BlockingCollection<ICommand> q, int id)
     {
         _id = id;
         _q = q;
-        strategy = () =>
+        _strategy = () =>
         {
             var cmd = _q.Take();
             try
@@ -27,9 +27,9 @@ public class ServerThread
         };
         _t = new Thread(() =>
         {
-            while (!stop)
+            while (!_stop)
             {
-                strategy();
+                _strategy();
             }
         });
     }
@@ -40,11 +40,11 @@ public class ServerThread
 
     public void Stop()
     {
-        stop = true;
+        _stop = true;
     }
     public void UpdateBehaviour(Action act)
     {
-        strategy = act;
+        _strategy = act;
     }
     public void Add(ICommand cmd)
     {
@@ -53,5 +53,13 @@ public class ServerThread
     public int GetId()
     {
         return _id;
+    }
+    public Thread GetThread()
+    {
+        return _t;
+    }
+    public BlockingCollection<ICommand> GetQ()
+    {
+        return _q;
     }
 }
