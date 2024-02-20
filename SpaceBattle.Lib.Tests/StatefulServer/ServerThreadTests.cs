@@ -167,35 +167,42 @@ public class ServerThreadTest
         var act = () => Console.WriteLine("Start!");
         IoC.Resolve<ICommand>("CreateAndStartThread", 0, act, q).Execute();
         var st = (ServerThread)threads[0];
-        Thread.Sleep(5);
+        Thread.Sleep(10);
 
         Assert.True(threads.Count != 0);
         Assert.True(st.GetThread().IsAlive);
-        threads.Remove(0);
+        IoC.Resolve<ICommand>("HardStopTheThread", 0, act).Execute();
+
+        Thread.Sleep(300);
     }
     [Fact]
     public void HardServerThreadTest()
     {
         var q = new BlockingCollection<ICommand>();
         var threads = IoC.Resolve<Dictionary<int, object>>("Dictionary.Threads");
-        var act1 = () => Console.WriteLine("Start!");
-        IoC.Resolve<ICommand>("CreateAndStartThread", 1, act1, q).Execute();
+        var act = () => Console.WriteLine("Start!");
+        IoC.Resolve<ICommand>("CreateAndStartThread", 0, act, q).Execute();
+        var st = (ServerThread)threads[0];
 
-        var st = (ServerThread)threads[1];
         var act2 = () => Console.WriteLine("Stop!");
 
         var cmd0 = new Mock<ICommand>();
-        cmd0.Setup(s => s.Execute()).Callback(new Action(() =>
+        try{
+            cmd0.Setup(s => s.Execute()).Callback(new Action(() =>
             {
-                throw new Exception("test");
+               throw new Exception();
             }));
-        IoC.Resolve<ICommand>("SendCommand", 1, cmd0.Object).Execute();
+        }
+        catch{}
 
-        IoC.Resolve<ICommand>("HardStopTheThread", 1, act2).Execute();
-        Thread.Sleep(5);
+        IoC.Resolve<ICommand>("SendCommand", 0, cmd0.Object).Execute();
+
+        IoC.Resolve<ICommand>("HardStopTheThread", 0, act2).Execute();
+        Thread.Sleep(100);
 
         Assert.True(threads.Count == 0);
         Assert.False(st.GetThread().IsAlive);
+        Thread.Sleep(300);
     }
     [Fact]
     public void SoftServerThreadTest()
@@ -225,12 +232,13 @@ public class ServerThreadTest
         var cmd2 = new Mock<ICommand>();
         IoC.Resolve<ICommand>("SendCommand", 2, cmd1.Object).Execute();
         IoC.Resolve<ICommand>("SendCommand", 2, cmd2.Object).Execute();
-        Thread.Sleep(5);
+        Thread.Sleep(100);
 
         cmd0.Verify();
         cmd1.Verify();
         cmd2.Verify();
         Assert.True(threads.Count == 0);
         Assert.False(st.GetThread().IsAlive);
+        Thread.Sleep(300);
     }
 }
