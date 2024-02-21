@@ -1,0 +1,99 @@
+﻿using Hwdtech;
+using Hwdtech.Ioc;
+using Moq;
+
+namespace SpaceBattle.Lib.Tests;
+
+public class ServerTests
+{
+    [Fact]
+    public void StartServerTest()
+    {
+        new InitScopeBasedIoCImplementationCommand().Execute();
+        IoC.Resolve<Hwdtech.ICommand>(
+            "Scopes.Current.Set",
+            IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
+        ).Execute();
+
+        var threads = new Dictionary<int, object>();
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Threads.Dictionary",
+            (object[] args) =>
+            {
+                return threads;
+            }
+        ).Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Create And Start Thread",
+            (object[] args) =>
+            {
+                var id = (int)args[0];
+                var threads = IoC.Resolve<Dictionary<int, object>>("Threads.Dictionary");
+                var act = (Action)args[1];
+                var startThreadCommand = new Mock<ICommand>();
+                startThreadCommand.Setup(stc => stc.Execute()).Callback(new Action(() =>
+                {
+                    threads.Add(id, "");
+                    act();
+                }));
+                return startThreadCommand.Object;
+            }).Execute();
+
+        var countThreads = 10;
+        (new StartServerCommand(countThreads)).Execute();
+
+        Assert.Equal(countThreads, threads.Keys.ToList().Count);
+        for (var i = 0; i < countThreads; i++)
+        {
+            Assert.True(threads.ContainsKey(i));
+        }
+    }
+
+    [Fact]
+    public void StopServerTest()
+    {
+        new InitScopeBasedIoCImplementationCommand().Execute();
+        IoC.Resolve<Hwdtech.ICommand>(
+            "Scopes.Current.Set",
+            IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
+        ).Execute();
+
+        var threads = new Dictionary<int, object>();
+        for (var i = 0; i < 10; i++)
+        {
+            threads.Add(i, "");
+        }
+
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Threads.Dictionary",
+            (object[] args) =>
+            {
+                return threads;
+            }
+        ).Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Soft Stop The Thread",
+            (object[] args) =>
+            {
+                var id = (int)args[0];
+                var act = (Action)args[1];
+                threads.Remove(id);
+                var stopThreadCommand = new Mock<ICommand>();
+                stopThreadCommand.Setup(stc => stc.Execute()).Callback(new Action(() =>
+                {
+                    threads.Remove(id);
+                    act();
+                }));
+                return stopThreadCommand.Object;
+            }
+        ).Execute();
+
+        (new StopServerCommand()).Execute();
+    }
+}
