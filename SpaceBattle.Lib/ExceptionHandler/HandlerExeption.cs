@@ -10,19 +10,7 @@ public class HandlerExceptionStrategy : IStrategy
 
         var tree = IoC.Resolve<Dictionary<string, IExceptionHandler>>("ExceptionHandler.Tree");
 
-        if (tree.ContainsKey(_keyCmd))
-        {
-            var handlerCmd = tree[_keyCmd];
-            return handlerCmd;
-        }
-
-        else if (tree.ContainsKey(_keyException))
-        {
-            var handlerExc = tree[_keyException];
-            return handlerExc;
-        }
-
-        else if (tree.ContainsKey(_keyCmd + _keyException))
+        if (tree.ContainsKey(_keyCmd + _keyException))
         {
             var handlerCmdExc = tree[_keyCmd + _keyException];
             return handlerCmdExc;
