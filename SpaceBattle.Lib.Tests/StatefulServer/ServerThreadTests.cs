@@ -70,7 +70,7 @@ public class ServerThreadTest
                     throw new ArgumentException("Inappropriate thread");
                 }
 
-                var act = (Action)args[1];
+                var act = (Action)args[1] ?? (() => Console.WriteLine("Stop!"));
 
                 var hardStopCommand = new Mock<ICommand>();
                 hardStopCommand.Setup(hcs => hcs.Execute()).Callback(new Action(() =>
@@ -100,7 +100,7 @@ public class ServerThreadTest
                     throw new ArgumentException("Inappropriate thread");
                 }
 
-                var act = (Action)args[1];
+                var act = (Action)args[1] ?? (() => Console.WriteLine("Stop!"));
                 var softStopCommand = new Mock<ICommand>();
                 var _q = st.GetQ();
                 softStopCommand.Setup(stc => stc.Execute()).Callback(new Action(() =>
@@ -173,7 +173,7 @@ public class ServerThreadTest
         Assert.True(st.GetThread().IsAlive);
         IoC.Resolve<ICommand>("HardStopTheThread", 0, act).Execute();
 
-        Thread.Sleep(300);
+        Thread.Sleep(500);
     }
     [Fact]
     public void HardServerThreadTest()
@@ -202,7 +202,7 @@ public class ServerThreadTest
 
         Assert.True(threads.Count == 0);
         Assert.False(st.GetThread().IsAlive);
-        Thread.Sleep(300);
+        Thread.Sleep(500);
     }
     [Fact]
     public void SoftServerThreadTest()
@@ -232,13 +232,13 @@ public class ServerThreadTest
         var cmd2 = new Mock<ICommand>();
         IoC.Resolve<ICommand>("SendCommand", 2, cmd1.Object).Execute();
         IoC.Resolve<ICommand>("SendCommand", 2, cmd2.Object).Execute();
-        Thread.Sleep(100);
+        Thread.Sleep(50);
 
         cmd0.Verify();
         cmd1.Verify();
         cmd2.Verify();
         Assert.True(threads.Count == 0);
         Assert.False(st.GetThread().IsAlive);
-        Thread.Sleep(300);
+        Thread.Sleep(500);
     }
 }
