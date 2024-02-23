@@ -1,9 +1,8 @@
 ﻿using Hwdtech;
 using Hwdtech.Ioc;
 using Moq;
-namespace SpaceBattle.Lib.Tests;
-
 using System.Collections.Concurrent;
+namespace SpaceBattle.Lib.Tests;
 
 public class ServerThreadTest
 {
@@ -167,13 +166,13 @@ public class ServerThreadTest
         var act = () => Console.WriteLine("Start!");
         IoC.Resolve<ICommand>("CreateAndStartThread", 0, act, q).Execute();
         var st = (ServerThread)threads[0];
-        Thread.Sleep(10);
+        Thread.Sleep(50);
 
         Assert.True(threads.Count != 0);
         Assert.True(st.GetThread().IsAlive);
         IoC.Resolve<ICommand>("HardStopTheThread", 0, act).Execute();
 
-        Thread.Sleep(500);
+        Thread.Sleep(600);
     }
     [Fact]
     public void HardServerThreadTest()
@@ -202,7 +201,7 @@ public class ServerThreadTest
 
         Assert.True(threads.Count == 0);
         Assert.False(st.GetThread().IsAlive);
-        Thread.Sleep(500);
+        Thread.Sleep(600);
     }
     [Fact]
     public void SoftServerThreadTest()
@@ -239,6 +238,6 @@ public class ServerThreadTest
         cmd2.Verify();
         Assert.True(threads.Count == 0);
         Assert.False(st.GetThread().IsAlive);
-        Thread.Sleep(500);
+        Thread.Sleep(600);
     }
 }
