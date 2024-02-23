@@ -5,7 +5,7 @@ public class RepeatCommand : ICommand
 {
     private ICommand _cmd;
 
-    public void Add(ICommand cmd)
+    public RepeatCommand(ICommand cmd)
     {
         _cmd = cmd;
     }
