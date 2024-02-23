@@ -1,7 +1,7 @@
-﻿using Hwdtech;
+﻿using System.Collections.Concurrent;
+using Hwdtech;
 using Hwdtech.Ioc;
 using Moq;
-using System.Collections.Concurrent;
 namespace SpaceBattle.Lib.Tests;
 
 public class ServerThreadTest
@@ -137,7 +137,7 @@ public class ServerThreadTest
         ).Execute();
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "ExceptionHandler.Find",
-            (object[] args) => 
+            (object[] args) =>
             {
                 var handler = new Mock<IExceptionHandler>();
                 return handler.Object;
@@ -186,13 +186,14 @@ public class ServerThreadTest
         var act2 = () => Console.WriteLine("Stop!");
 
         var cmd0 = new Mock<ICommand>();
-        try{
+        try
+        {
             cmd0.Setup(s => s.Execute()).Callback(new Action(() =>
             {
-               throw new Exception();
+                throw new Exception();
             }));
         }
-        catch{}
+        catch { }
 
         IoC.Resolve<ICommand>("SendCommand", 0, cmd0.Object).Execute();
 
