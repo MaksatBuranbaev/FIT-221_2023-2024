@@ -37,24 +37,20 @@ public class LongOperationTests
     }
 
     [Fact]
-    public void LongOperation()
+    public void СorrectLongOperationTest()
     {
         var mockCommand = new Mock<Lib.ICommand>();
-        mockCommand.Setup(x => x.Execute()).Verifiable();
 
         var name = "Command.Move";
         var mockUObject = new Mock<IUObject>();
 
         IoC.Resolve<ICommand>("IoC.Register", name, (object[] args) => mockCommand.Object).Execute();
-        IoC.Resolve<ICommand>("IoC.Register", "Command.Macro", (object[] args) => mockCommand.Object).Execute();
-
         IoC.Resolve<ICommand>(
             "IoC.Register",
             "Operation." + name,
             (object[] args) =>
             {
-                var loc = new LongOperation();
-                var lo = loc.Run(args);
+                var lo = new LongOperation().Run(args);
                 return lo;
             }
         ).Execute();
@@ -62,15 +58,22 @@ public class LongOperationTests
         IoC.Resolve<Lib.ICommand>("Operation." + name, name, mockUObject.Object).Execute();
         mockCommand.VerifyAll();
     }
+    [Fact]
+    public void InСorrectLongOperationTest()
+    {
+        var mockCommand = new Mock<Lib.ICommand>();
 
+        var name = "Command.Move.Failed";
+        var mockUObject = new Mock<IUObject>();
+
+        Assert.ThrowsAny<Exception>(() => IoC.Resolve<Lib.ICommand>("Operation." + name, name, mockUObject.Object).Execute());
+    }
     [Fact]
     public void RepeatCommandTest()
     {
 
         var mockCommand = new Mock<Lib.ICommand>();
-
-        var repeatCommand = new RepeatCommand();
-        repeatCommand.Add(mockCommand.Object);
+        var repeatCommand = new RepeatCommand(mockCommand.Object);
 
         repeatCommand.Execute();
 
