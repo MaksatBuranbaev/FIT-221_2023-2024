@@ -6,12 +6,10 @@ public class ServerThread
 {
     private readonly Thread _t;
     private readonly BlockingCollection<ICommand> _q;
-    private readonly int _id;
     private bool _stop = false;
     private Action _strategy;
-    public ServerThread(BlockingCollection<ICommand> q, int id)
+    public ServerThread(BlockingCollection<ICommand> q)
     {
-        _id = id;
         _q = q;
         _strategy = () =>
         {
@@ -50,10 +48,6 @@ public class ServerThread
     {
         _q.Add(cmd);
     }
-    public int GetId()
-    {
-        return _id;
-    }
     public Thread GetThread()
     {
         return _t;
@@ -61,5 +55,23 @@ public class ServerThread
     public BlockingCollection<ICommand> GetQ()
     {
         return _q;
+    }
+    public override bool Equals(object obj)
+    {
+        if (obj.GetType() == typeof(Thread))
+        {
+            return _t == (Thread)obj;
+        }
+
+        if (obj == null || GetType() != obj.GetType())
+        {
+            return false;
+        }
+
+        return false;
+    }
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
     }
 }
