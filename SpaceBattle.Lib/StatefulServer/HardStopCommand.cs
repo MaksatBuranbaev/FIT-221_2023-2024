@@ -3,7 +3,7 @@
 public class HardStopCommand : ICommand
 {
     private readonly ServerThread _st;
-        private readonly Action _act;
+    private readonly Action _act;
     public HardStopCommand(ServerThread st, Action act)
     {
         _st = st;

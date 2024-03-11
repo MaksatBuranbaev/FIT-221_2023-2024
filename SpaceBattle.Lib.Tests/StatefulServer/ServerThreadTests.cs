@@ -11,8 +11,8 @@ public class ServerThreadTest
         new InitScopeBasedIoCImplementationCommand().Execute();
 
         IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set",
-            IoC.Resolve<object>("Scopes.New", 
-                IoC.Resolve<object>("Scopes.Root")            
+            IoC.Resolve<object>("Scopes.New",
+                IoC.Resolve<object>("Scopes.Root")
             )
         ).Execute();
 
@@ -145,22 +145,23 @@ public class ServerThreadTest
         var act = () => Console.WriteLine("Start!");
         Action act2 = () => mre.Set();
 
-    
         IoC.Resolve<ICommand>("CreateAndStartThread", 1, act, q).Execute();
         var hs = IoC.Resolve<ICommand>("HardStopTheThread", 1, act2);
         var threads = IoC.Resolve<Dictionary<int, object>>("Dictionary.Threads");
         var st = (ServerThread)threads[1];
 
         var cmd = new Mock<ICommand>();
-        cmd.Setup(c => c.Execute()).Callback(new Action(() => {
+        cmd.Setup(c => c.Execute()).Callback(new Action(() =>
+        {
             IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set",
-            IoC.Resolve<object>("Scopes.New", 
-                IoC.Resolve<object>("Scopes.Root")            
+            IoC.Resolve<object>("Scopes.New",
+                IoC.Resolve<object>("Scopes.Root")
             )).Execute();
         }));
 
         var eh = new Mock<ICommand>();
-        eh.Setup(e => e.Execute()).Callback(new Action(() => {
+        eh.Setup(e => e.Execute()).Callback(new Action(() =>
+        {
             IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "ExceptionHandler.Find",
             (object[] args) =>
             {
@@ -182,12 +183,12 @@ public class ServerThreadTest
                     return cmd.Object;
                 }).Execute();
         }));
-        
+
         var cmd0 = new Mock<ICommand>();
         cmd0.Setup(c => c.Execute()).Throws<Exception>().Verifiable();
         var cmd1 = new Mock<ICommand>();
         var cmd2 = new Mock<ICommand>();
-        
+
         q.Add(cmd.Object);
         q.Add(eh.Object);
         q.Add(cmd0.Object);
