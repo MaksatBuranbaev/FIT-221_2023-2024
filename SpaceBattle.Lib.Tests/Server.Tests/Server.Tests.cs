@@ -67,7 +67,6 @@ public class ServerTests
             {
                 var id = (int)args[0];
                 var act = (Action)args[1];
-                threads.Remove(id);
                 var stopThreadCommand = new Mock<ICommand>();
                 stopThreadCommand.Setup(stc => stc.Execute()).Callback(new Action(() =>
                 {
@@ -79,5 +78,7 @@ public class ServerTests
         ).Execute();
 
         (new StopServerCommand()).Execute();
+
+        Assert.True(threads.Keys.Count == 0);
     }
 }
