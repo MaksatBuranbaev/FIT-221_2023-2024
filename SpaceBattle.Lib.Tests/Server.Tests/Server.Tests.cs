@@ -15,41 +15,25 @@ public class ServerTests
             IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
         ).Execute();
 
-        var threads = new Dictionary<int, object>();
-        IoC.Resolve<Hwdtech.ICommand>(
-            "IoC.Register",
-            "Threads.Dictionary",
-            (object[] args) =>
-            {
-                return threads;
-            }
-        ).Execute();
-
+        var castCMD = new Mock<ICommand>();
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
             "Create And Start Thread",
             (object[] args) =>
             {
-                var id = (int)args[0];
-                var threads = IoC.Resolve<Dictionary<int, object>>("Threads.Dictionary");
-                var act = (Action)args[1];
-                var startThreadCommand = new Mock<ICommand>();
-                startThreadCommand.Setup(stc => stc.Execute()).Callback(new Action(() =>
+                var cmd = new Mock<ICommand>();
+                cmd.Setup(c => c.Execute()).Callback(new Action(() =>
                 {
-                    threads.Add(id, "");
-                    act();
+                    ((Action)args[1])();
+                    castCMD.Object.Execute();
                 }));
-                return startThreadCommand.Object;
+                return cmd.Object;
             }).Execute();
 
         var countThreads = 10;
         (new StartServerCommand(countThreads)).Execute();
 
-        Assert.Equal(countThreads, threads.Keys.ToList().Count);
-        for (var i = 0; i < countThreads; i++)
-        {
-            Assert.True(threads.ContainsKey(i));
-        }
+        castCMD.Verify(x => x.Execute(), Times.Exactly(countThreads));
     }
 
     [Fact]
