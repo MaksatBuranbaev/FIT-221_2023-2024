@@ -123,23 +123,7 @@ public class ServerThreadTest
             }
         ).Execute();
     }
-    /*     [Fact]
-        public void StartServerThreadTest()
-        {
-            var mre = new ManualResetEvent(false);
-            var q = new BlockingCollection<ICommand>();
-            var threads = IoC.Resolve<Dictionary<int, object>>("Dictionary.Threads");
-            Action act = () => mre.Set();
-            IoC.Resolve<ICommand>("CreateAndStartThread", 0, act, q).Execute();
-            var st = (ServerThread)threads[0];
-            mre.WaitOne();
 
-            Assert.True(threads.Count != 0);
-            Assert.True(st.GetThread().IsAlive);
-
-            threads.Remove(0);
-            Thread.Sleep(100);
-        } */
     [Fact]
     public void HardStopServerThreadTest()
     {
@@ -243,7 +227,7 @@ public class ServerThreadTest
 
         Thread.Sleep(10);
     }
-    
+
     [Fact]
     public void ServerThreadEquals()
     {
