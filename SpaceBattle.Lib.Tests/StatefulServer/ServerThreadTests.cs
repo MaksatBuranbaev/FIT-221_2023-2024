@@ -263,9 +263,43 @@ public class ServerThreadTest
         Assert.False(st1.Equals(st2.GetThread()));
         Assert.False(st1.Equals(null));
         Assert.True(st1.Equals(st1.GetThread()));
+
+        /* var scope = new Mock<ICommand>();
+        scope.Setup(c => c.Execute()).Callback(new Action(() =>
+        {
+            IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set",
+            IoC.Resolve<object>("Scopes.New",
+                IoC.Resolve<object>("Scopes.Root")
+            )).Execute();
+        }));
+        var eh = new Mock<ICommand>();
+        var flag = new Mock<ICommand>();
+        eh.Setup(e => e.Execute()).Callback(new Action(() =>
+        {
+            IoC.Resolve<Hwdtech.ICommand>(
+                "IoC.Register",
+                "Exception.Handle",
+                (object[] args) =>
+                {
+                    var cmd = new Mock<ICommand>();
+                    cmd.Setup(c => c.Execute()).Callback(new Action(() =>
+                        {
+                            flag.Object.Execute();
+                        }));
+                    return cmd.Object;
+                }).Execute();
+        }));
+        q1.Add(scope.Object);
+        q1.Add(eh.Object); */
         q1.Add(ss);
+
+        /* q2.Add(scope.Object);
+        q2.Add(eh.Object); */
         q2.Add(hs);
+
         mre.WaitOne();
+        /* flag.Verify(f => f.Execute(), Times.Exactly(2)); */
+
         Thread.Sleep(10);
     }
 }
