@@ -69,6 +69,6 @@ public class ServerThread
     }
     public override int GetHashCode()
     {
-        return base.GetHashCode();
+        return _t.GetHashCode();
     }
 }
