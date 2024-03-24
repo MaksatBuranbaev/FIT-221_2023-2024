@@ -19,7 +19,7 @@ public class StopServerCommand : ICommand
                     barrier.SignalAndWait();
                 }).Execute();
         });
-        
+
         Console.WriteLine("Сервер остановлен");
     }
 }

@@ -72,14 +72,7 @@ public class ServerTests
                 {
                     var t = new Thread(new ThreadStart(act));
                     t.Start();
-                    try
-                    {
-                        t.Abort();
-                    }
-                    catch { 
-
-                    }
-                    
+                    Thread.Sleep(100);
                     threads.Remove(id);
                 }));
                 return stopThreadCommand.Object;
