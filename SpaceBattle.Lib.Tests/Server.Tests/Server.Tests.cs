@@ -76,7 +76,10 @@ public class ServerTests
                     {
                         t.Abort();
                     }
-                    catch { }
+                    catch { 
+
+                    }
+                    
                     threads.Remove(id);
                 }));
                 return stopThreadCommand.Object;
@@ -84,7 +87,7 @@ public class ServerTests
         ).Execute();
 
         (new StopServerCommand()).Execute();
-        
+
         Assert.True(threads.Keys.Count == 0);
     }
 }
