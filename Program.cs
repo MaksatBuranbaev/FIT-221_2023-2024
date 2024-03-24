@@ -2,9 +2,9 @@
 
 namespace SpaceBattle.Lib;
 
-internal class Program
+class Program
 {
-    private static void Main(string[] args)
+    static void Main(string[] args)
     {
         var countThreads = int.Parse(args[0]);
 

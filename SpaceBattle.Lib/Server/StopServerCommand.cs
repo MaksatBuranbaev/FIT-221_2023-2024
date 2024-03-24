@@ -10,14 +10,16 @@ public class StopServerCommand : ICommand
 
         var idThreads = IoC.Resolve<Dictionary<int, object>>("Threads.Dictionary").Keys;
 
-        foreach (var id in idThreads)
+        var barrier = new Barrier(idThreads.Count);
+
+        idThreads.ToList().ForEach(id =>
         {
             IoC.Resolve<ICommand>("Soft Stop The Thread", id, () =>
                 {
-                    Console.WriteLine($"\t Остановлен поток {id}");
+                    barrier.SignalAndWait();
                 }).Execute();
-        }
-
-        Console.WriteLine("Все потоки остановлены");
+        });
+        
+        Console.WriteLine("Сервер остановлен");
     }
 }

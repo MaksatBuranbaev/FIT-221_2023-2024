@@ -70,15 +70,21 @@ public class ServerTests
                 var stopThreadCommand = new Mock<ICommand>();
                 stopThreadCommand.Setup(stc => stc.Execute()).Callback(new Action(() =>
                 {
+                    var t = new Thread(new ThreadStart(act));
+                    t.Start();
+                    try
+                    {
+                        t.Abort();
+                    }
+                    catch { }
                     threads.Remove(id);
-                    act();
                 }));
                 return stopThreadCommand.Object;
             }
         ).Execute();
 
         (new StopServerCommand()).Execute();
-
+        
         Assert.True(threads.Keys.Count == 0);
     }
 }
