@@ -13,8 +13,7 @@ public class StartServerCommand : ICommand
     public void Execute()
     {
         Console.WriteLine("Запуск сервера...");
-
-        for (var id = 0; id < _countThreads; id++)
+        foreach (var id in Enumerable.Range(0, _countThreads))
         {
             IoC.Resolve<ICommand>("Create And Start Thread", id, () =>
                 {

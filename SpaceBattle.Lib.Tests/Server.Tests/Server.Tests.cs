@@ -70,10 +70,9 @@ public class ServerTests
                 var stopThreadCommand = new Mock<ICommand>();
                 stopThreadCommand.Setup(stc => stc.Execute()).Callback(new Action(() =>
                 {
-                    var t = new Thread(new ThreadStart(act));
+                    var t = new Thread(() => { act(); });
                     t.Start();
-                    Thread.Sleep(100);
-                    threads.Remove(id);
+                    threads[id] = t;
                 }));
                 return stopThreadCommand.Object;
             }
@@ -81,6 +80,10 @@ public class ServerTests
 
         (new StopServerCommand()).Execute();
 
-        Assert.True(threads.Keys.Count == 0);
+        Thread.Sleep(100);
+        for (var i = 0; i < threads.Count; i++)
+        {
+            Assert.False(((Thread)threads[i]).IsAlive);
+        }
     }
 }
