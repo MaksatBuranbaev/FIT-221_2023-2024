@@ -13,15 +13,14 @@ public class StartServerCommand : ICommand
     public void Execute()
     {
         Console.WriteLine("Запуск сервера...");
-        foreach (var id in Enumerable.Range(0, _countThreads))
+
+        Enumerable.Range(0, _countThreads).ToList().ForEach((int id) =>
         {
-            IoC.Resolve<ICommand>("Create And Start Thread", id, () =>
-                {
-                    Console.WriteLine($"\t Запущен поток {id}");
-                }).Execute();
-        }
+            IoC.Resolve<ICommand>("Create And Start Thread", id).Execute();
+        });
+
+        IoC.Resolve<ICommand>("Server.Barrier.Create", _countThreads).Execute();
 
         Console.WriteLine($"Запущено {_countThreads} потоков");
-
     }
 }

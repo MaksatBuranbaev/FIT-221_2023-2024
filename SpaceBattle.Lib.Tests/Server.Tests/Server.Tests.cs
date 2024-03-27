@@ -15,25 +15,29 @@ public class ServerTests
             IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
         ).Execute();
 
-        var castCMD = new Mock<ICommand>();
+        var castCommand = new Mock<ICommand>();
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
             "Create And Start Thread",
             (object[] args) =>
             {
-                var cmd = new Mock<ICommand>();
-                cmd.Setup(c => c.Execute()).Callback(new Action(() =>
-                {
-                    ((Action)args[1])();
-                    castCMD.Object.Execute();
-                }));
-                return cmd.Object;
+                return castCommand.Object;
+            }).Execute();
+
+        var createBarrierCommand = new Mock<ICommand>();
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Server.Barrier.Create",
+            (object[] args) =>
+            {
+                return createBarrierCommand.Object;
             }).Execute();
 
         var countThreads = 10;
         (new StartServerCommand(countThreads)).Execute();
 
-        castCMD.Verify(x => x.Execute(), Times.Exactly(countThreads));
+        castCommand.Verify(x => x.Execute(), Times.Exactly(countThreads));
+        createBarrierCommand.Verify(x => x.Execute(), Times.Once);
     }
 
     [Fact]
@@ -45,10 +49,11 @@ public class ServerTests
             IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
         ).Execute();
 
+        var countThreads = 10;
         var threads = new Dictionary<int, object>();
-        for (var i = 0; i < 10; i++)
+        for (var i = 0; i < countThreads; i++)
         {
-            threads.Add(i, "");
+            threads.TryAdd(i, "");
         }
 
         IoC.Resolve<Hwdtech.ICommand>(
@@ -60,30 +65,55 @@ public class ServerTests
             }
         ).Execute();
 
+        var sendCommand = new Mock<ICommand>();
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Server.SendCommand",
+            (object[] args) =>
+            {
+                sendCommand.Setup(x => x.Execute()).Callback(new Action(() =>
+                {
+                    ((ICommand)args[1]).Execute();
+                }));
+                return sendCommand.Object;
+            }
+        ).Execute();
+
+        var softStopCommand = new Mock<ICommand>();
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
             "Soft Stop The Thread",
             (object[] args) =>
             {
-                var id = (int)args[0];
-                var act = (Action)args[1];
-                var stopThreadCommand = new Mock<ICommand>();
-                stopThreadCommand.Setup(stc => stc.Execute()).Callback(new Action(() =>
+                softStopCommand.Setup(x => x.Execute()).Callback(new Action(() =>
                 {
-                    var t = new Thread(() => { act(); });
-                    t.Start();
-                    threads[id] = t;
+                    ((Action)args[1])();
                 }));
-                return stopThreadCommand.Object;
+                return softStopCommand.Object;
             }
+        ).Execute();
+
+        var barrierCommand = new Mock<ICommand>();
+        barrierCommand.Setup(x => x.Execute());
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Server.Barrier.Command",
+            (object[] args) => barrierCommand.Object
+        ).Execute();
+
+        var barrierCheckCommand = new Mock<ICommand>();
+        barrierCheckCommand.Setup(x => x.Execute());
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Server.Barrier.Check",
+            (object[] args) => barrierCheckCommand.Object
         ).Execute();
 
         (new StopServerCommand()).Execute();
 
-        Thread.Sleep(100);
-        for (var i = 0; i < threads.Count; i++)
-        {
-            Assert.False(((Thread)threads[i]).IsAlive);
-        }
+        sendCommand.Verify(x => x.Execute(), Times.Exactly(countThreads));
+        softStopCommand.Verify(x => x.Execute(), Times.Exactly(countThreads));
+        barrierCommand.Verify(x => x.Execute(), Times.Exactly(countThreads));
+        barrierCheckCommand.Verify(x => x.Execute(), Times.Once);
     }
 }
