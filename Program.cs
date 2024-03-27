@@ -8,12 +8,11 @@ class Program
     {
         var countThreads = int.Parse(args[0]);
 
-        IoC.Resolve<ICommand>("StartServer", countThreads).Execute();
+        IoC.Resolve<ICommand>("Server.StartServer", countThreads).Execute();
 
         Console.WriteLine("Для остановки сервера нажмите любую клавишу...");
         Console.ReadKey();
 
-        IoC.Resolve<ICommand>("StopServer").Execute();
-        Console.WriteLine("Сервер остановлен");
+        IoC.Resolve<ICommand>("Server.StopServer").Execute();
     }
 }
