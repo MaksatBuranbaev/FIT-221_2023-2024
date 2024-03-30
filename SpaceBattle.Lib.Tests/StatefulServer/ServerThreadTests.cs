@@ -175,9 +175,9 @@ public class ServerThreadTest
 
         q.Add(reg.Object);
         q.Add(exc.Object);
-        q.Add(hs);
         q.Add(cmd1.Object);
         q.Add(cmd2.Object);
+        q.Add(hs);
 
         mre.WaitOne();
         exc.Verify(c => c.Execute(), Times.Once());
