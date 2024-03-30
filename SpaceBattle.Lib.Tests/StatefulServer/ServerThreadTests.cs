@@ -180,13 +180,12 @@ public class ServerThreadTest
         q.Add(cmd2.Object);
 
         mre.WaitOne();
-
         exc.Verify(c => c.Execute(), Times.Once());
         cmd1.Verify(c => c.Execute(), Times.Once());
         cmd2.Verify(c => c.Execute(), Times.Once());
         Assert.False(st.GetThread().IsAlive);
 
-        Thread.Sleep(10);
+        st.GetThread().Join();
     }
 
     [Fact]
@@ -220,10 +219,8 @@ public class ServerThreadTest
         cmd1.Verify(c => c.Execute(), Times.Once());
         cmd2.Verify(c => c.Execute(), Times.Once());
 
-        Thread.Sleep(10);
+        st.GetThread().Join();
         Assert.False(st.GetThread().IsAlive);
-
-        Thread.Sleep(10);
     }
 
     [Fact]
@@ -243,6 +240,7 @@ public class ServerThreadTest
         var ss = IoC.Resolve<ICommand>("SoftStopTheThread", g2, act2);
         var st1 = (ServerThread)threads[g1];
         var st2 = (ServerThread)threads[g2];
+        st1.GetHashCode();
 
         Assert.False(st1.Equals(st2.GetThread()));
         Assert.False(st1.Equals(null));
@@ -284,6 +282,7 @@ public class ServerThreadTest
         mre.WaitOne();
         /* flag.Verify(f => f.Execute(), Times.Exactly(2)); */
 
-        Thread.Sleep(10);
+        st1.GetThread().Join();
+        st2.GetThread().Join();
     }
 }
