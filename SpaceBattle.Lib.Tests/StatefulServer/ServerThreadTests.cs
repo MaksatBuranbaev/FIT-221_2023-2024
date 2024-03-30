@@ -16,7 +16,7 @@ public class ServerThreadTest
             )
         ).Execute();
 
-        var threads = new Dictionary<int, object>() { };
+        var threads = new Dictionary<Guid, object>() { };
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
             "Dictionary.Threads",
@@ -32,15 +32,15 @@ public class ServerThreadTest
             (object[] args) =>
             {
                 var st = new ServerThread((BlockingCollection<ICommand>)args[2]);
-                var threads = IoC.Resolve<Dictionary<int, object>>("Dictionary.Threads");
+                var threads = IoC.Resolve<Dictionary<Guid, object>>("Dictionary.Threads");
                 var act = (Action)args[1] ?? (() => Console.WriteLine("Stop!"));
+                var sc = new CreateAndStartThread(st, act);
 
                 var startThreadCommand = new Mock<ICommand>();
                 startThreadCommand.Setup(stc => stc.Execute()).Callback(new Action(() =>
                 {
-                    st.Start();
-                    act();
-                    threads.Add((int)args[0], st);
+                    sc.Execute();
+                    threads.Add((Guid)args[0], st);
                 }));
                 return startThreadCommand.Object;
             }
@@ -51,9 +51,9 @@ public class ServerThreadTest
             "SendCommand",
             (object[] args) =>
             {
-                var threads = IoC.Resolve<Dictionary<int, object>>("Dictionary.Threads");
-                var st = (ServerThread)threads[(int)args[0]];
-
+                var threads = IoC.Resolve<Dictionary<Guid, object>>("Dictionary.Threads");
+                var st = (ServerThread)threads[(Guid)args[0]];
+            
                 var sendCommand = new Mock<ICommand>();
                 sendCommand.Setup(sc => sc.Execute()).Callback(new Action(() =>
                 {
@@ -68,8 +68,8 @@ public class ServerThreadTest
             "HardStopTheThread",
             (object[] args) =>
             {
-                var threads = IoC.Resolve<Dictionary<int, object>>("Dictionary.Threads");
-                var st = (ServerThread)threads[(int)args[0]];
+                var threads = IoC.Resolve<Dictionary<Guid, object>>("Dictionary.Threads");
+                var st = (ServerThread)threads[(Guid)args[0]];
                 var act = (Action)args[1] ?? (() => Console.WriteLine("Stop!"));
                 var hs = new HardStopCommand(st, act);
 
@@ -77,7 +77,7 @@ public class ServerThreadTest
                 hardStopCommand.Setup(hcs => hcs.Execute()).Callback(new Action(() =>
                 {
                     st.Add(hs);
-                    threads.Remove((int)args[0]);
+                    threads.Remove((Guid)args[0]);
                 }));
                 return hardStopCommand.Object;
             }
@@ -88,8 +88,8 @@ public class ServerThreadTest
             "SoftStopTheThread",
             (object[] args) =>
             {
-                var threads = IoC.Resolve<Dictionary<int, object>>("Dictionary.Threads");
-                var st = (ServerThread)threads[(int)args[0]];
+                var threads = IoC.Resolve<Dictionary<Guid, object>>("Dictionary.Threads");
+                var st = (ServerThread)threads[(Guid)args[0]];
                 var act = (Action)args[1] ?? (() => Console.WriteLine("Stop!"));
                 var _q = st.GetQ();
                 Action strategy = () =>
@@ -117,7 +117,7 @@ public class ServerThreadTest
                 softStopCommand.Setup(stc => stc.Execute()).Callback(new Action(() =>
                 {
                     st.Add(ss);
-                    threads.Remove((int)args[0]);
+                    threads.Remove((Guid)args[0]);
                 }));
                 return softStopCommand.Object;
             }
@@ -132,23 +132,20 @@ public class ServerThreadTest
         var act = () => Console.WriteLine("Start!");
         Action act2 = () => mre.Set();
 
-        IoC.Resolve<ICommand>("CreateAndStartThread", 1, act, q).Execute();
-        var hs = IoC.Resolve<ICommand>("HardStopTheThread", 1, act2);
-        var threads = IoC.Resolve<Dictionary<int, object>>("Dictionary.Threads");
-        var st = (ServerThread)threads[1];
+        var guid = Guid.NewGuid();
+        IoC.Resolve<ICommand>("CreateAndStartThread", guid, act, q).Execute();
+        var hs = IoC.Resolve<ICommand>("HardStopTheThread", guid, act2);
+        var threads = IoC.Resolve<Dictionary<Guid, object>>("Dictionary.Threads");
+        var st = (ServerThread)threads[guid];
 
-        var scope = new Mock<ICommand>();
-        scope.Setup(c => c.Execute()).Callback(new Action(() =>
+        var reg = new Mock<ICommand>();
+        reg.Setup(e => e.Execute()).Callback(new Action(() =>
         {
             IoC.Resolve<Hwdtech.ICommand>("Scopes.Current.Set",
             IoC.Resolve<object>("Scopes.New",
                 IoC.Resolve<object>("Scopes.Root")
             )).Execute();
-        }));
-
-        var eh = new Mock<ICommand>();
-        eh.Setup(e => e.Execute()).Callback(new Action(() =>
-        {
+        
             IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "ExceptionHandler.Find",
             (object[] args) =>
             {
@@ -176,17 +173,17 @@ public class ServerThreadTest
         var cmd1 = new Mock<ICommand>();
         var cmd2 = new Mock<ICommand>();
 
-        q.Add(scope.Object);
-        q.Add(eh.Object);
+        q.Add(reg.Object);
         q.Add(exc.Object);
         q.Add(hs);
         q.Add(cmd1.Object);
+        q.Add(cmd2.Object);
 
         mre.WaitOne();
 
         exc.Verify(c => c.Execute(), Times.Once());
         cmd1.Verify(c => c.Execute(), Times.Once());
-        cmd1.Verify(c => c.Execute(), Times.Once());
+        cmd2.Verify(c => c.Execute(), Times.Once());
         Assert.False(st.GetThread().IsAlive);
 
         Thread.Sleep(10);
@@ -198,14 +195,15 @@ public class ServerThreadTest
         var mre = new ManualResetEvent(false);
         var q = new BlockingCollection<ICommand>();
         var act = () => Console.WriteLine("Start!");
-        IoC.Resolve<ICommand>("CreateAndStartThread", 2, act, q).Execute();
-        var threads = IoC.Resolve<Dictionary<int, object>>("Dictionary.Threads");
-        var st = (ServerThread)threads[2];
+        var guid = Guid.NewGuid();
+        IoC.Resolve<ICommand>("CreateAndStartThread", guid, act, q).Execute();
+        var threads = IoC.Resolve<Dictionary<Guid, object>>("Dictionary.Threads");
+        var st = (ServerThread)threads[guid];
         Action act2 = () =>
         {
             mre.Set();
         };
-        var ss = IoC.Resolve<ICommand>("SoftStopTheThread", 2, act2);
+        var ss = IoC.Resolve<ICommand>("SoftStopTheThread", guid, act2);
 
         var cmd0 = new Mock<ICommand>();
         var cmd1 = new Mock<ICommand>();
@@ -236,13 +234,15 @@ public class ServerThreadTest
         var q2 = new BlockingCollection<ICommand>();
         var act = () => Console.WriteLine("Start!");
         Action act2 = () => mre.Set();
-        IoC.Resolve<ICommand>("CreateAndStartThread", 1, act, q1).Execute();
-        IoC.Resolve<ICommand>("CreateAndStartThread", 2, act, q2).Execute();
-        var threads = IoC.Resolve<Dictionary<int, object>>("Dictionary.Threads");
-        var hs = IoC.Resolve<ICommand>("HardStopTheThread", 1, act2);
-        var ss = IoC.Resolve<ICommand>("SoftStopTheThread", 2, act2);
-        var st1 = (ServerThread)threads[1];
-        var st2 = (ServerThread)threads[2];
+        var g1 = Guid.NewGuid();
+        var g2 = Guid.NewGuid();
+        IoC.Resolve<ICommand>("CreateAndStartThread", g1, act, q1).Execute();
+        IoC.Resolve<ICommand>("CreateAndStartThread", g2, act, q2).Execute();
+        var threads = IoC.Resolve<Dictionary<Guid, object>>("Dictionary.Threads");
+        var hs = IoC.Resolve<ICommand>("HardStopTheThread", g1, act2);
+        var ss = IoC.Resolve<ICommand>("SoftStopTheThread", g2, act2);
+        var st1 = (ServerThread)threads[g1];
+        var st2 = (ServerThread)threads[g2];
 
         Assert.False(st1.Equals(st2.GetThread()));
         Assert.False(st1.Equals(null));
