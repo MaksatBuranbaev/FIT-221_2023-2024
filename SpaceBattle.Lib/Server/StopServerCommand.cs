@@ -8,7 +8,7 @@ public class StopServerCommand : ICommand
     {
         Console.WriteLine("Остановка сервера...");
 
-        var idThreads = IoC.Resolve<Dictionary<int, object>>("Threads.Dictionary").Keys;
+        var idThreads = IoC.Resolve<Guid[]>("Threads.Id");
 
         idThreads.ToList().ForEach(id =>
         {

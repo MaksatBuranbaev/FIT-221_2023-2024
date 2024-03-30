@@ -14,9 +14,9 @@ public class StartServerCommand : ICommand
     {
         Console.WriteLine("Запуск сервера...");
 
-        Enumerable.Range(0, _countThreads).ToList().ForEach((int id) =>
+        Enumerable.Range(0, _countThreads).ToList().ForEach(_ =>
         {
-            IoC.Resolve<ICommand>("Create And Start Thread", id).Execute();
+            IoC.Resolve<ICommand>("Create And Start Thread", Guid.NewGuid()).Execute();
         });
 
         IoC.Resolve<ICommand>("Server.Barrier.Create", _countThreads).Execute();

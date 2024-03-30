@@ -50,18 +50,18 @@ public class ServerTests
         ).Execute();
 
         var countThreads = 10;
-        var threads = new Dictionary<int, object>();
+        var threads = new Dictionary<Guid, object>();
         for (var i = 0; i < countThreads; i++)
         {
-            threads.TryAdd(i, "");
+            threads.Add(Guid.NewGuid(), "");
         }
 
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
-            "Threads.Dictionary",
+            "Threads.Id",
             (object[] args) =>
             {
-                return threads;
+                return threads.Keys.ToArray();
             }
         ).Execute();
 
