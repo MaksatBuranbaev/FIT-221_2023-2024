@@ -183,9 +183,8 @@ public class ServerThreadTest
         exc.Verify(c => c.Execute(), Times.Once());
         cmd1.Verify(c => c.Execute(), Times.Once());
         cmd2.Verify(c => c.Execute(), Times.Once());
-        Assert.False(st.GetThread().IsAlive);
-
         st.GetThread().Join();
+        Assert.False(st.GetThread().IsAlive);
     }
 
     [Fact]
