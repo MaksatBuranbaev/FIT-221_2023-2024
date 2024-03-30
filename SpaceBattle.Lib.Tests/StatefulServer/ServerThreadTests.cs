@@ -53,7 +53,7 @@ public class ServerThreadTest
             {
                 var threads = IoC.Resolve<Dictionary<Guid, object>>("Dictionary.Threads");
                 var st = (ServerThread)threads[(Guid)args[0]];
-            
+
                 var sendCommand = new Mock<ICommand>();
                 sendCommand.Setup(sc => sc.Execute()).Callback(new Action(() =>
                 {
@@ -145,7 +145,7 @@ public class ServerThreadTest
             IoC.Resolve<object>("Scopes.New",
                 IoC.Resolve<object>("Scopes.Root")
             )).Execute();
-        
+
             IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "ExceptionHandler.Find",
             (object[] args) =>
             {
