@@ -199,7 +199,7 @@ public class ServerThreadTest
 
     [Fact]
     public void SoftStopServerThreadTest()
-    {   
+    {
         var commands_mre = new ManualResetEvent(false);
         var ss_mre = new ManualResetEvent(false);
 
