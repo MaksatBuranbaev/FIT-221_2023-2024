@@ -2,7 +2,7 @@
 using Hwdtech;
 namespace SpaceBattle.Lib;
 
-public class ServerThread
+public class ServerThread : IDisposable
 {
     private readonly Thread _t;
     private readonly BlockingCollection<ICommand> _q;
@@ -55,6 +55,10 @@ public class ServerThread
     public BlockingCollection<ICommand> GetQ()
     {
         return _q;
+    }
+    public void Dispose()
+    {
+        GetThread().Join();
     }
     public override bool Equals(object obj)
     {
