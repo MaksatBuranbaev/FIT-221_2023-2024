@@ -193,8 +193,10 @@ public class ServerThreadTest
         cmd2.Verify(c => c.Execute(), Times.Once());
         cmd3.Verify(c => c.Execute(), Times.Never);
         cmd4.Verify(c => c.Execute(), Times.Never);
-        st.GetThread().Join();
-        Assert.False(st.GetThread().IsAlive);
+        using (st)
+        {
+            Assert.False(st.GetThread().IsAlive);
+        }
     }
 
     [Fact]
@@ -235,8 +237,10 @@ public class ServerThreadTest
         cmd1.Verify(c => c.Execute(), Times.Once());
         cmd2.Verify(c => c.Execute(), Times.Once());
 
-        st.GetThread().Join();
-        Assert.False(st.GetThread().IsAlive);
+        using (st)
+        {
+            Assert.False(st.GetThread().IsAlive);
+        }
     }
 
     [Fact]
@@ -295,10 +299,13 @@ public class ServerThreadTest
         q2.Add(eh.Object);
         q2.Add(hs);
 
-        /* mre.WaitOne();
-        flag.Verify(f => f.Execute(), Times.Exactly(2)); */
-
-        st1.GetThread().Join();
-        st2.GetThread().Join();
+        /* mre.WaitOne(); */
+        using (st1)
+        {
+            /* flag.Verify(f => f.Execute(), Times.Exactly(2)); */
+            using (st2)
+            {
+            }
+        }
     }
 }
