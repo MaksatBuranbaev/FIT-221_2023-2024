@@ -14,8 +14,8 @@ public class SoftStopCommand : ICommand
     {
         if (_st.Equals(Thread.CurrentThread))
         {
-            _act();
             _st.UpdateBehaviour(_strategy);
+            _act();
         }
         else
         {
