@@ -12,6 +12,6 @@ namespace WebHttp
 
         public string QueryEcho(string param) => param;
 
-        public ExampleContract BodyEcho(ExampleContract param) => param;
+        public GameContract BodyEcho(GameContract param) => param;
     }
 }

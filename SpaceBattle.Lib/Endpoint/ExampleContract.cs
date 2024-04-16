@@ -7,32 +7,23 @@ using CoreWCF.OpenApi.Attributes;
 
 namespace WebHttp
 {
-    [DataContract(Name = "ExampleContract", Namespace = "http://example.com")]
-    internal class ExampleContract
+    [DataContract(Name = "GameContract", Namespace = "http://example.com")]
+    internal class GameContract
     {
-        [DataMember(Name = "SimpleProperty", Order = 1)]
-        [OpenApiProperty(Description = "SimpleProperty description.")]
-        public string SimpleProperty { get; set; }
+        [DataMember(Name = "type", Order = 1)]
+        [OpenApiProperty(Description = "command type")]
+        public string type { get; set; }
 
-        [DataMember(Name = "ComplexProperty", Order = 2)]
-        [OpenApiProperty(Description = "ComplexProperty description.")]
-        public InnerContract ComplexProperty { get; set; }
+        [DataMember(Name = "game_id", Order = 2)]
+        [OpenApiProperty(Description = "game_id")]
+        public string game_id { get; set; }
 
-        [DataMember(Name = "SimpleCollection", Order = 3)]
-        [OpenApiProperty(Description = "SimpleCollection description.")]
-        public List<string> SimpleCollection { get; set; }
+        [DataMember(Name = "game_item_id", Order = 3)]
+        [OpenApiProperty(Description = "game_item_id")]
+        public string game_item_id { get; set; }
 
-
-        [DataMember(Name = "ComplexCollection", Order = 4)]
-        [OpenApiProperty(Description = "ComplexCollection description.")]
-        public List<InnerContract> ComplexCollection { get; set; }
-    }
-
-    [DataContract(Name = "InnerContract", Namespace = "http://example.com")]
-    internal class InnerContract
-    {
-        [DataMember(Name = "Name", Order = 1)]
-        [OpenApiProperty(Description = "Name description.")]
-        public string Name { get; set; }
+        [DataMember(Name = "properties", Order = 4)]
+        [OpenApiProperty(Description = "other propertiesы")]
+        public List<int> properties { get; set; }
     }
 }

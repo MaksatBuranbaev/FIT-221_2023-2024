@@ -32,8 +32,8 @@ namespace WebHttp
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/body")]
         [OpenApiTag("Tag")]
-        [OpenApiResponse(ContentTypes = new[] { "application/json", "text/xml" }, Description = "Success", StatusCode = HttpStatusCode.OK, Type = typeof(ExampleContract)) ]
-        ExampleContract BodyEcho(
-            [OpenApiParameter(ContentTypes = new[] { "application/json", "text/xml" }, Description = "param description.")] ExampleContract param);
+        [OpenApiResponse(ContentTypes = new[] { "application/json", "text/xml" }, Description = "Success", StatusCode = HttpStatusCode.OK, Type = typeof(GameContract)) ]
+        GameContract BodyEcho(
+            [OpenApiParameter(ContentTypes = new[] { "application/json", "text/xml" }, Description = "param description.")] GameContract param);
     }
 }
