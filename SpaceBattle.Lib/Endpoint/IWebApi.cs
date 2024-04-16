@@ -16,20 +16,6 @@ namespace WebHttp
     internal interface IWebApi
     {
         [OperationContract]
-        [WebGet(UriTemplate = "/path/{param}")]
-        [OpenApiTag("Tag")]
-        [OpenApiResponse(ContentTypes = new[] { "application/json", "text/xml" }, Description = "Success", StatusCode = HttpStatusCode.OK, Type = typeof(string))]
-        string PathEcho(
-            [OpenApiParameter(Description = "param description.")] string param);
-
-        [OperationContract]
-        [WebGet(UriTemplate = "/query?param={param}")]
-        [OpenApiTag("Tag")]
-        [OpenApiResponse(ContentTypes = new[] { "application/json", "text/xml" }, Description = "Success", StatusCode = HttpStatusCode.OK, Type = typeof(string))]
-        string QueryEcho(
-            [OpenApiParameter(Description = "param description.")] string param = "");
-
-        [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/body")]
         [OpenApiTag("Tag")]
         [OpenApiResponse(ContentTypes = new[] { "application/json", "text/xml" }, Description = "Success", StatusCode = HttpStatusCode.OK, Type = typeof(GameContract)) ]
