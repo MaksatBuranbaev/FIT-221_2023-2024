@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using CoreWCF.OpenApi.Attributes;
 
-namespace WebHttp
+namespace SpaceBattle.Lib;
 {
     [DataContract(Name = "GameContract", Namespace = "http://example.com")]
     internal class GameContract
