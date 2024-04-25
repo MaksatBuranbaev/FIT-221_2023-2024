@@ -1,7 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using CoreWCF.OpenApi.Attributes;
 
@@ -20,7 +17,7 @@ namespace WebHttp
 
         [DataMember(Name = "game_item_id", Order = 3)]
         [OpenApiProperty(Description = "game_item_id")]
-        public string game_item_id { get; set; }
+        public int game_item_id { get; set; }
 
         [DataMember(Name = "properties", Order = 4)]
         [OpenApiProperty(Description = "other propertiesы")]
