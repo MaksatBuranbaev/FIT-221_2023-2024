@@ -28,11 +28,18 @@ public class IntepretationCommandTests
         uobjects.Add(1, new Mock<IUObject>().Object);
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
+            "UObject.Map",
+            (object[] args) =>
+            {
+                return uobjects;
+            }).Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
             "UObject.ById",
             (object[] args) =>
             {
-                var id = (int)args[0];
-                return uobjects[id];
+                return (new GetUObjectStrategy()).Run(args);
             }).Execute();
 
         var setPropertyCommand = new Mock<ICommand>();
@@ -67,11 +74,18 @@ public class IntepretationCommandTests
         queues.Add(1, new Queue<ICommand>());
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
+            "Queue.Map",
+            (object[] args) =>
+            {
+                return queues;
+            }).Execute();
+
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
             "Queue.QueueById",
             (object[] args) =>
             {
-                var id = (int)args[0];
-                return queues[id];
+                return (new GetQueueStrategy()).Run(args);
             }).Execute();
 
         var message = new Mock<IMessage>();
@@ -86,6 +100,52 @@ public class IntepretationCommandTests
         Assert.True(queues[1].Count == 1);
         setPropertyCommand.Verify(s => s.Execute(), Times.Once);
         Assert.True(queues[1].Dequeue().Equals(startMoveCommand.Object));
+    }
 
+    [Fact]
+    public void QueueNotInMap()
+    {
+        new InitScopeBasedIoCImplementationCommand().Execute();
+        IoC.Resolve<Hwdtech.ICommand>(
+            "Scopes.Current.Set",
+            IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
+        ).Execute();
+
+        var queues = new Dictionary<int, Queue<ICommand>>
+        {
+            { 1, new Queue<ICommand>() }
+        };
+
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Queue.Map",
+            (object[] args) =>
+            {
+                return queues;
+            }).Execute();
+        Assert.Throws<Exception>((() => new GetQueueStrategy().Run(2)));
+    }
+
+    [Fact]
+    public void UObjectNotInMap()
+    {
+        new InitScopeBasedIoCImplementationCommand().Execute();
+        IoC.Resolve<Hwdtech.ICommand>(
+            "Scopes.Current.Set",
+            IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
+        ).Execute();
+
+        var uobjects = new Dictionary<int, IUObject>
+        {
+            { 1, new Mock<IUObject>().Object }
+        };
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "UObject.Map",
+            (object[] args) =>
+            {
+                return uobjects;
+            }).Execute();
+        Assert.Throws<Exception>((() => new GetUObjectStrategy().Run(3)));
     }
 }
