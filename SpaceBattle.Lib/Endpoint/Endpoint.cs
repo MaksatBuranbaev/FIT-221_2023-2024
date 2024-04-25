@@ -1,13 +1,17 @@
-namespace SpaceBattle.Lib;
-
+﻿namespace SpaceBattle.Lib;
 using Hwdtech;
 using WebHttp;
-public class Endpoint: ICommand
+public class Endpoint : ICommand
 {
-    internal GameContract? gameobj {get; set;}
+    internal GameContract? _gameobj { get; set; }
+    internal Endpoint(GameContract gameobj)
+    {
+        _gameobj = gameobj;
+    }
     public void Execute()
     {
-        var mp = IoC.Resolve<ICommand>("MP", gameobj);
-        IoC.Resolve<ICommand>("SendCommand", Thread.CurrentThread, mp);
+        var mp = IoC.Resolve<ICommand>("MP", _gameobj);
+        var t = IoC.Resolve<ICommand>("CurrentThread");
+        IoC.Resolve<ICommand>("SendCommand", t, mp);
     }
 }
