@@ -1,14 +1,14 @@
-﻿using CoreWCF;
+﻿using System.Xml;
+using CoreWCF;
 using CoreWCF.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
-using System.Xml;
 using WebHttp;
 
 internal sealed class Startup
 {
-    public void ConfigureServices(IServiceCollection services)
+    public static void ConfigureServices(IServiceCollection services)
     {
         services.AddServiceModelWebServices(o =>
         {
@@ -26,7 +26,7 @@ internal sealed class Startup
         services.AddSingleton(new SwaggerOptions());
     }
 
-    public void Configure(IApplicationBuilder app)
+    public static void Configure(IApplicationBuilder app)
     {
         app.UseMiddleware<SwaggerMiddleware>();
         app.UseSwaggerUI();
