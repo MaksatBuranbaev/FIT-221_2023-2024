@@ -4,14 +4,16 @@ using WebHttp;
 public class Endpoint : ICommand
 {
     internal GameContract? _gameobj { get; set; }
+    internal string _game_id {get; set;}
     internal Endpoint(GameContract gameobj)
     {
         _gameobj = gameobj;
+        _game_id = gameobj.game_id;
     }
     public void Execute()
     {
-        var mp = IoC.Resolve<ICommand>("MP", _gameobj);
-        var t = IoC.Resolve<ICommand>("CurrentThread");
+        var mp = IoC.Resolve<ICommand>("Command.Interpreted", _gameobj);
+        var t = IoC.Resolve<ICommand>("RunningThread", _game_id);
         IoC.Resolve<ICommand>("SendCommand", t, mp);
     }
 }
