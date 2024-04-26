@@ -5,7 +5,7 @@ using CoreWCF.OpenApi.Attributes;
 namespace WebHttp
 {
     [DataContract(Name = "GameContract", Namespace = "http://example.com")]
-    internal class GameContract
+    public class GameContract
     {
         [DataMember(Name = "type", Order = 1)]
         [OpenApiProperty(Description = "command type")]
@@ -20,7 +20,7 @@ namespace WebHttp
         public int game_item_id { get; set; }
 
         [DataMember(Name = "properties", Order = 4)]
-        [OpenApiProperty(Description = "other propertiesы")]
+        [OpenApiProperty(Description = "other properties")]
         public List<int> properties { get; set; }
     }
 }
