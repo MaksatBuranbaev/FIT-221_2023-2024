@@ -9,7 +9,12 @@ namespace WebHttp
         public GameContract BodyEcho(GameContract param) 
         {
             var endpoint = new Endpoint(param);
-            endpoint.Execute();
+            try{
+                endpoint.Execute();
+            }
+            catch{
+                
+            }
             return param;
         }
     }
