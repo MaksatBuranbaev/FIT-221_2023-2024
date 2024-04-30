@@ -3,7 +3,7 @@ using CoreWCF.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
-using WebHttp;
+using SpaceBattle.Server;
 
 internal sealed class Startup
 {

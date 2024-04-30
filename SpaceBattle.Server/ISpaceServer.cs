@@ -3,7 +3,7 @@ using CoreWCF;
 using CoreWCF.OpenApi.Attributes;
 using CoreWCF.Web;
 
-namespace WebHttp
+namespace SpaceBattle.Server
 {
     [ServiceContract]
     [OpenApiBasePath("/spacebattle")]

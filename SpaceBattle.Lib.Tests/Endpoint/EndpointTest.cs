@@ -3,7 +3,7 @@ using Hwdtech;
 using Hwdtech.Ioc;
 using Moq;
 using System.Collections.Concurrent;
-using WebHttp;
+using SpaceBattle.Server;
 
 public class EndpointTest
 {
@@ -16,23 +16,31 @@ public class EndpointTest
     [Fact]
     public void  SuccessfulEndpoint()
     {
-        var InterpretationCommand = new  Mock<ICommand>();
+        var InterpretationCommand = new  Mock<Lib.ICommand>();
         var q = new BlockingCollection<Lib.ICommand>();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Command.Interpreted", (object[] args) => {
+            return InterpretationCommand.Object;
+        }).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "GetThread", (object[] args) => {
+            return Thread.CurrentThread;
+        }).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "SendCommand", (object[] args) => {
+             var sendCommand = new Mock<Lib.ICommand>();
+                sendCommand.Setup(sc => sc.Execute()).Callback(new Action(() =>
+                {
+                    q.Add((Lib.ICommand)args[1]);
+                }));
+                return sendCommand.Object;
+        }).Execute();
         var contr = new GameContract
         {
             type = "“fire",
             game_id = "asdfg",
             game_item_id = 548,
+            properties = new List<int>(){1, 2, 3}
         };
-        IoC.Resolve<Hwdtech.ICommand>("Command.Interpreted", "IoC.Register", (object[] args) => {
-            return InterpretationCommand.Object;
-        }).Execute();
-        IoC.Resolve<Hwdtech.ICommand>("GetThread", "IoC.Register", (object[] args) => {
-            return Thread.CurrentThread;
-        }).Execute();
-        IoC.Resolve<Hwdtech.ICommand>("SendCommand", "IoC.Register", (object[] args) => {
-            q.Add((Lib.ICommand)args[1]);
-        }).Execute();
+        var endpoint = new Endpoint(contr);
+        endpoint.Execute();
         Assert.True(q.Count == 1);
         var cmd = q.Take();
         cmd.Execute();

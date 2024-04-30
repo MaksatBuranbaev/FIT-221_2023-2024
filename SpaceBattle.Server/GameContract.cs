@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using CoreWCF.OpenApi.Attributes;
 
-namespace WebHttp
+namespace SpaceBattle.Server
 {
     [DataContract(Name = "GameContract")]
     public class GameContract

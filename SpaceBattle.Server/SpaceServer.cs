@@ -1,7 +1,6 @@
 ﻿using CoreWCF;
-using SpaceBattle.Lib;
 
-namespace WebHttp
+namespace SpaceBattle.Server
 {
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
     internal class SpaceServer : ISpaceServer
