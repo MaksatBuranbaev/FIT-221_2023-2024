@@ -25,9 +25,9 @@ public class EndpointTest
             game_item_id = 548,
         };
         IoC.Resolve<Hwdtech.ICommand>("Command.Interpreted", "IoC.Register", (object[] args) => {
-            InterpretationCommand.Object.Execute();
+            return InterpretationCommand.Object;
         }).Execute();
-        IoC.Resolve<Hwdtech.ICommand>("Command.Interpreted", "IoC.Register", (object[] args) => {
+        IoC.Resolve<Hwdtech.ICommand>("GetThread", "IoC.Register", (object[] args) => {
             return Thread.CurrentThread;
         }).Execute();
         IoC.Resolve<Hwdtech.ICommand>("SendCommand", "IoC.Register", (object[] args) => {
