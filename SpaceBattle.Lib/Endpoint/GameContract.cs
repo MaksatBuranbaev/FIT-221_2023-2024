@@ -4,7 +4,7 @@ using CoreWCF.OpenApi.Attributes;
 
 namespace WebHttp
 {
-    [DataContract(Name = "GameContract", Namespace = "http://example.com")]
+    [DataContract(Name = "GameContract")]
     public class GameContract
     {
         [DataMember(Name = "type", Order = 1)]
