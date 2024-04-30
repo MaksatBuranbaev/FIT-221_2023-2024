@@ -1,12 +1,11 @@
 ﻿using System.Threading;
 using Hwdtech;
-using SpaceBattle.Lib;
 
 namespace SpaceBattle.Server;
 public class Endpoint : Lib.ICommand
 {
     internal GameContract? _gameobj { get; set; }
-    internal string _game_id {get; set;}
+    internal string _game_id { get; set; }
     public Endpoint(GameContract gameobj)
     {
         _gameobj = gameobj;

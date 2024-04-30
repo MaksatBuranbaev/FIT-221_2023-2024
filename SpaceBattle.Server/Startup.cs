@@ -2,8 +2,8 @@
 using CoreWCF.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.Swagger;
 using SpaceBattle.Server;
+using Swashbuckle.AspNetCore.Swagger;
 
 internal sealed class Startup
 {

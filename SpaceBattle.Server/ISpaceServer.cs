@@ -12,8 +12,8 @@ namespace SpaceBattle.Server
         [OperationContract]
         [WebInvoke(Method = "POST", UriTemplate = "/order")]
         [OpenApiTag("spacebattle")]
-        [OpenApiResponse(ContentTypes = new[] { "application/json"}, Description = "Success", StatusCode = HttpStatusCode.OK, Type = typeof(GameContract))]
+        [OpenApiResponse(ContentTypes = new[] { "application/json" }, Description = "Success", StatusCode = HttpStatusCode.OK, Type = typeof(GameContract))]
         GameContract Order(
-            [OpenApiParameter(ContentTypes = new[] { "application/json"}, Description = "param description.")] GameContract param);
+            [OpenApiParameter(ContentTypes = new[] { "application/json" }, Description = "param description.")] GameContract param);
     }
 }
