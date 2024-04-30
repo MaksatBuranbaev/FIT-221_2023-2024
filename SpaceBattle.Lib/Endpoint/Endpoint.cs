@@ -13,7 +13,7 @@ public class Endpoint : ICommand
     public void Execute()
     {
         var mp = IoC.Resolve<ICommand>("Command.Interpreted", _gameobj);
-        var t = IoC.Resolve<ICommand>("RunningThread", _game_id);
+        var t = IoC.Resolve<ICommand>("GetThread", _game_id);
         IoC.Resolve<ICommand>("SendCommand", t, mp);
     }
 }
