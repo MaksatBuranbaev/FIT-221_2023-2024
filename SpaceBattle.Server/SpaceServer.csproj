@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SpaceBattle.Lib.csproj" />
+    <ProjectReference Include="..\SpaceBattle.Lib\SpaceBattle.Lib.csproj" />
   </ItemGroup>
 
 </Project>
