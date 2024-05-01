@@ -1,8 +1,14 @@
-﻿using Microsoft.AspNetCore;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 
-var builder = WebHost.CreateDefaultBuilder(args)
+[ExcludeFromCodeCoverage]
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        var builder = WebHost.CreateDefaultBuilder(args)
     .UseKestrel(options =>
     {
         options.AllowSynchronousIO = true;
@@ -14,5 +20,7 @@ var builder = WebHost.CreateDefaultBuilder(args)
     })
     .UseStartup<Startup>();
 
-var app = builder.Build();
-app.Run();
+        var app = builder.Build();
+        app.Run();
+    }
+}

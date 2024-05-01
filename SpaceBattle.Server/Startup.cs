@@ -1,10 +1,12 @@
-﻿using CoreWCF;
+﻿using System.Diagnostics.CodeAnalysis;
+using CoreWCF;
 using CoreWCF.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using SpaceBattle.Server;
 using Swashbuckle.AspNetCore.Swagger;
 
+[ExcludeFromCodeCoverage]
 internal sealed class Startup
 {
     public static void ConfigureServices(IServiceCollection services)

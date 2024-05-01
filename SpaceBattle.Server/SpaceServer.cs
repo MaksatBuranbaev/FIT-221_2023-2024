@@ -1,7 +1,9 @@
-﻿using CoreWCF;
+﻿using System.Diagnostics.CodeAnalysis;
+using CoreWCF;
 
 namespace SpaceBattle.Server
 {
+    [ExcludeFromCodeCoverage]
     [ServiceBehavior(IncludeExceptionDetailInFaults = true)]
     internal class SpaceServer : ISpaceServer
     {
