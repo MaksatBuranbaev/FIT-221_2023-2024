@@ -45,7 +45,7 @@ public class EndpointTest
             game_item_id = 548,
             properties = new List<int>() { 1, 2, 3 }
         };
-        
+
         var endpoint = new Endpoint();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Endpoint", (object[] args) =>
         {
