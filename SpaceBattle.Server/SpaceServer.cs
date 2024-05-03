@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using CoreWCF;
+using Hwdtech;
 
 namespace SpaceBattle.Server
 {
@@ -9,8 +10,7 @@ namespace SpaceBattle.Server
     {
         public GameContract Order(GameContract param)
         {
-            var endpoint = new Endpoint(param);
-            endpoint.Execute();
+            IoC.Resolve<Lib.ICommand>("Endpoint", param).Execute();
             return param;
         }
     }
