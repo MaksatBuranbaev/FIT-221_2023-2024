@@ -6,7 +6,7 @@ public class Endpoint : Lib.ICommand
 {
     internal GameContract? _gameobj { get; set; }
     internal string _game_id { get; set; }
-    public Endpoint(GameContract gameobj)
+    public void Set(GameContract gameobj)
     {
         _gameobj = gameobj;
         _game_id = gameobj.game_id;
