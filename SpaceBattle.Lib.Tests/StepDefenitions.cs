@@ -8,7 +8,7 @@ internal delegate void F();
 public class MoveCommandTest
 {
     private readonly Mock<IMovable> movable = new Mock<IMovable>();
-    private F? a;
+    private F a = () => { };
     [Given(@"космический корабль находится в точке пространства с координатами \((.*), (.*)\)")]
     public void ДопустимКосмическийКорабльНаходитсяВТочкеПространстваСКоординатами(int p0, int p1)
     {
@@ -62,9 +62,9 @@ public class MoveCommandTest
 [Binding, Scope(Feature = "Вектор")]
 public class VectorTest
 {
-    private Vector vec;
+    private Vector vec = new Vector(new int[] { 0, 0 });
     private int hash;
-    private F? a;
+    private F a = () => { };
     [Given(@"вектор принимает на вход массив \((.*), (.*)\)")]
     public void ДопустимВекторПринимаетНаВходМассив(int p0, int p1)
     {
