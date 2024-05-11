@@ -8,7 +8,7 @@ internal delegate void LFunc();
 public class RotateCommandTest
 {
     private readonly Mock<SpaceBattle.Lib.IRotateble> _rotatable = new Mock<IRotateble>();
-    private LFunc? _a;
+    private LFunc _a = () => { };
 
     [Given(@"космический корабль имеет угол наклона (.*) град к оси OX")]
     public void ДанУголНаклона(int angle)
