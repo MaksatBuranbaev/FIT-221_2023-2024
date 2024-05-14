@@ -18,7 +18,7 @@ public class GameCommand : ICommand
         var stopWatch = new Stopwatch();
         stopWatch.Start();
 
-        while (stopWatch.ElapsedMilliseconds < IoC.Resolve<int>("Quantum.Get"))
+        while (stopWatch.ElapsedMilliseconds < IoC.Resolve<int>("Quantum.Get") && _queue.Count != 0)
         {
             var cmd = _queue.Dequeue();
             try
@@ -27,7 +27,7 @@ public class GameCommand : ICommand
             }
             catch (Exception e)
             {
-                IoC.Resolve<IExceptionHandler>("ExceptionHandler.Find", cmd, e);
+                IoC.Resolve<IExceptionHandler>("Exception.Handle", cmd, e).Handle();
             }
         }
 
