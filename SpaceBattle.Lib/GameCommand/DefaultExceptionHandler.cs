@@ -1,6 +1,5 @@
-using Hwdtech;
-namespace SpaceBattle.Lib;
-public class DefaultExceptionHandler: IExceptionHandler
+﻿namespace SpaceBattle.Lib;
+public class DefaultExceptionHandler : IExceptionHandler
 {
     private readonly Exception _e;
     public DefaultExceptionHandler(Exception e)
