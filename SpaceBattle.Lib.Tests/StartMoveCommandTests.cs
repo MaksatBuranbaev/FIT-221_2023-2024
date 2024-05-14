@@ -118,7 +118,7 @@ public class FakeQueue : IQueue
         _cmd = cmd;
     }
 
-    ICommand IQueue.Take()
+    public ICommand Take()
     {
         return _cmd;
     }
