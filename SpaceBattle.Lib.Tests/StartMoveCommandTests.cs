@@ -112,13 +112,13 @@ public class StartMoveCommandTests
 
 public class FakeQueue : IQueue
 {
-    private Lib.ICommand _cmd;
-    public void Add(Lib.ICommand cmd)
+    private ICommand _cmd = new Mock<ICommand>().Object;
+    public void Add(ICommand cmd)
     {
         _cmd = cmd;
     }
 
-    public Lib.ICommand Take()
+    ICommand IQueue.Take()
     {
         return _cmd;
     }
