@@ -205,10 +205,20 @@ public class GameTests
             (object[] args) => games
         ).Execute();
 
+        var queues = new Dictionary<int, Queue<ICommand>>();
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Queue.Map",
+            (object[] args) =>
+            {
+                return queues;
+            }).Execute();
+
         var res = new CreateGameCommandStrategy().Run(gameId, parentScope, quantum);
 
         var gameMap = IoC.Resolve<IDictionary<int, ICommand>>("Game.Map");
         Assert.Equal(gameMap[gameId], injectCommand.Object);
         createGameScopeStrategy.Verify(c => c.Run(It.IsAny<object[]>()), Times.Once);
+        Assert.Contains<int>(gameId, queues.Keys);
     }
 }

@@ -10,7 +10,7 @@ public class CreateGameCommandStrategy : IStrategy
         var quantum = (double)args[2];
 
         var gameScope = IoC.Resolve<object>("Scope.New", gameId, parentScope, quantum);
-        var gameQueue = IoC.Resolve<object>("Queue.New");
+        var gameQueue = (Queue<ICommand>)IoC.Resolve<object>("Queue.New");
         var gameCommand = IoC.Resolve<ICommand>("Command.Game", gameQueue, gameScope);
 
         var commandsList = new List<ICommand> { gameCommand };
@@ -20,6 +20,7 @@ public class CreateGameCommandStrategy : IStrategy
         commandsList.Add(repeatCommand);
 
         IoC.Resolve<IDictionary<int, ICommand>>("Game.Map").Add(gameId, injectCommand);
+        IoC.Resolve<IDictionary<int, Queue<ICommand>>>("Queue.Map").Add(gameId, gameQueue);
 
         return injectCommand;
     }
