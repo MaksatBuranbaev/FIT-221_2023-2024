@@ -7,7 +7,7 @@ public class CreateGameCommandStrategy : IStrategy
     {
         var gameId = (int)args[0];
         var parentScope = args[1];
-        var quantum = (double)args[2];
+        var quantum = (int)args[2];
 
         var gameScope = IoC.Resolve<object>("Scope.New", gameId, parentScope, quantum);
         var gameQueue = (Queue<ICommand>)IoC.Resolve<object>("Queue.New");

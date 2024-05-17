@@ -155,7 +155,7 @@ public class GameTests
     {
         var gameId = 999;
         var parentScope = IoC.Resolve<object>("Scopes.Root");
-        var quantum = 1.0;
+        var quantum = 100;
 
         var createGameScopeStrategy = new Mock<IStrategy>();
         IoC.Resolve<Hwdtech.ICommand>(
