@@ -107,6 +107,15 @@ public class GameTests
             (object[] args) => games
         ).Execute();
 
+        var queues = new Dictionary<int, Queue<ICommand>>{
+            { 993, new Queue<ICommand>() }
+        };
+        IoC.Resolve<Hwdtech.ICommand>(
+            "IoC.Register",
+            "Queue.Map",
+            (object[] args) => queues
+        ).Execute();
+
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
             "Command.Empty",

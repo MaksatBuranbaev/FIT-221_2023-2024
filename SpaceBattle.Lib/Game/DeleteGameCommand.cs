@@ -17,7 +17,7 @@ public class DeleteGameCommand : ICommand
             IoC.Resolve<ICommand>("Command.Empty")
         );
 
-        var scopes = IoC.Resolve<IDictionary<int, object>>("Scope.Map");
-        scopes.Remove(_gameId);
+        IoC.Resolve<IDictionary<int, object>>("Scope.Map").Remove(_gameId);
+        IoC.Resolve<IDictionary<int, Queue<ICommand>>>("Queue.Map").Remove(_gameId);
     }
 }
