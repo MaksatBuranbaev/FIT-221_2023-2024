@@ -1,5 +1,4 @@
-﻿using System.Threading;
-using Hwdtech;
+﻿using Hwdtech;
 
 namespace SpaceBattle.Server;
 public class Endpoint : Lib.ICommand
