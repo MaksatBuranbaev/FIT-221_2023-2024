@@ -1,8 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using CoreWCF;
 using Hwdtech;
 using SpaceBattle.Lib;
-using System;
 
 namespace SpaceBattle.Server
 {
