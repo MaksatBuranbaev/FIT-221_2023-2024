@@ -20,7 +20,7 @@ namespace SpaceBattle.Server
             catch (Exception e)
             {
                 IoC.Resolve<IExceptionHandler>("Controller.Exception.Handle", e).Handle();
-                return "400";
+                return "404";
             }
         }
     }
