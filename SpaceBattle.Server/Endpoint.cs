@@ -12,7 +12,6 @@ public class Endpoint : Lib.ICommand
     public void Execute()
     {
         var mp = IoC.Resolve<Lib.ICommand>("Command.Interpreted", _gameobj);
-        var t = IoC.Resolve<Thread>("GetThread", _gameobj.game_id);
-        IoC.Resolve<Lib.ICommand>("SendCommand", t, mp).Execute();
+        IoC.Resolve<Lib.ICommand>("SendCommand", _gameobj.game_id, mp).Execute();
     }
 }
