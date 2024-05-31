@@ -44,10 +44,6 @@ public class ServerThread : IDisposable
     {
         _strategy = act;
     }
-    public void Add(ICommand cmd)
-    {
-        _q.Add(cmd);
-    }
     public Thread GetThread()
     {
         return _t;
