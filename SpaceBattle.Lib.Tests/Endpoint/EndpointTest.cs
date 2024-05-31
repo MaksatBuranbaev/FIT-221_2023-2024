@@ -31,7 +31,6 @@ public class EndpointTest
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "SendCommand", (object[] args) =>
         {
             var sendCommand = new Mock<Lib.ICommand>();
-            var t = IoC.Resolve<Thread>("GetThread", args[0]);
             sendCommand.Setup(sc => sc.Execute()).Callback(new Action(() =>
             {
                 q.Add((Lib.ICommand)args[1]);
