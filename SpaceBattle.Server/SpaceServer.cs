@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using CoreWCF;
 using Hwdtech;
-using SpaceBattle.Lib;
 
 namespace SpaceBattle.Server
 {
@@ -19,8 +18,7 @@ namespace SpaceBattle.Server
             }
             catch (Exception e)
             {
-                IoC.Resolve<IExceptionHandler>("Controller.Exception.Handle", e).Handle();
-                return "404";
+                return IoC.Resolve<string>("Controller.Exception.Handle", e);
             }
         }
     }
