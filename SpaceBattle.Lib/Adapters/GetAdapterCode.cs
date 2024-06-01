@@ -8,13 +8,25 @@ public class GetAdapterCode : IStrategy
     {
         _type = (Type)args[0];
 
-        var templateString = @"
-        public class {{ interface_name }}Adapter : {{ interface_name }}
-        {
-            private IUObject _obj;
-            public {{ interface_name }}Adapter(IUObject obj) => _obj = obj;{{for property in (properties)}}
-            {{ if property.can_read && property.can_write}}public {{property.property_type.name}} {{property.name}} { get => ({{property.property_type.name}})_obj.GetProperty('{{property.name}}'); set => _obj.SetProperty('{{property.name}}', _obj);}{{ else if property.can_read && !property.can_write}}public {{property.property_type.name}} {{property.name}} => ({{property.property_type.name}})_obj.GetProperty('{{property.name}}');{{ else if !property.can_read && property.can_write}}public {{property.property_type.name}} {{property.name}} => _obj.SetProperty('{{property.name}}, _obj');{{end}}{{end}}
-        }";
+        var templateString = @"public class {{ interface_name }}Adapter : {{ interface_name }}
+{
+    private IUObject _obj;
+    public {{ interface_name }}Adapter(IUObject obj) => _obj = obj;{{for property in (properties)}}
+    public {{property.property_type.name}} {{property.name}}
+    {
+    {{if property.can_read}}
+    get
+    {
+        return ({{property.property_type.name}})_obj.GetProperty(""{{property.name}}"");
+    }{{end}}
+    {{if property.can_write}}
+    set
+    {
+        _obj.SetProperty(""{{property.name}}"", _obj);
+    }{{end}}
+    }
+{{end}}
+}";
 
         var template = Template.Parse(templateString);
         var result = template.Render(new
