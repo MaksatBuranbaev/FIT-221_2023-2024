@@ -23,14 +23,35 @@ public class GetAdapterCodeTests
 
         var result = IoC.Resolve<string>("GenerateAdapterCode", type);
 
-        var expected = @"
-        public class IMovableAdapter : IMovable
+        var expected = @"public class IMovableAdapter : IMovable
+{
+    private IUObject _obj;
+    public IMovableAdapter(IUObject obj) => _obj = obj;
+    public Vector Position
+    {
+    
+        get
         {
-            private IUObject _obj;
-            public IMovableAdapter(IUObject obj) => _obj = obj;
-            public Vector Position { get => (Vector)_obj.GetProperty('Position'); set => _obj.SetProperty('Position', _obj);}
-            public Vector Velocity => (Vector)_obj.GetProperty('Velocity');
-        }";
+            return (Vector)_obj.GetProperty(""Position"");
+        }
+    
+        set
+        {
+            _obj.SetProperty(""Position"", _obj);
+        }
+    }
+
+    public Vector Velocity
+    {
+    
+        get
+        {
+            return (Vector)_obj.GetProperty(""Velocity"");
+        }
+    
+    }
+
+}";
         Assert.Equal(expected, result);
     }
 }
