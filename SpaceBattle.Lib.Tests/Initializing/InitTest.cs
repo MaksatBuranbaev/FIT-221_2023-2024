@@ -1,4 +1,4 @@
-using Hwdtech;
+﻿using Hwdtech;
 using Hwdtech.Ioc;
 using Moq;
 
@@ -16,7 +16,7 @@ public class InitTest
             IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
         ).Execute();
 
-        var depInitСommand = new Mock<ICommand>(); 
+        var depInitСommand = new Mock<ICommand>();
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
             "Command.DependenciesInit",
@@ -94,7 +94,7 @@ public class InitTest
         var rotateCommand = IoC.Resolve<ICommand>("Command.Rotate", IUObject.Object);
         var startMoveCommand = IoC.Resolve<ICommand>("Command.StartMove", IUObject.Object);
         var shootCommand = IoC.Resolve<ICommand>("Command.Shoot", IUObject.Object);
-        
+
         Assert.IsType<RotateCommand>(rotateCommand);
         Assert.IsType<StartMoveCommand>(startMoveCommand);
         Assert.IsType<ShootCommand>(shootCommand);

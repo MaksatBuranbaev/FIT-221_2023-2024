@@ -1,7 +1,7 @@
-namespace SpaceBattle.Lib;
+﻿namespace SpaceBattle.Lib;
 using Hwdtech;
 
-public class CreateRotateCommandStrategy: IStrategy
+public class CreateRotateCommandStrategy : IStrategy
 {
     public object Run(params object[] args)
     {

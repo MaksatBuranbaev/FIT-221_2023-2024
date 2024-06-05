@@ -10,16 +10,17 @@ public class DependenciesInitCommand : ICommand
         dependencies.ToList().ForEach(d =>
         {
             IoC.Resolve<Hwdtech.ICommand>(
-                "IoC.Register", 
-                "Command." + d.Key, 
+                "IoC.Register",
+                "Command." + d.Key,
                 (object[] args) => d.Value.Run(args)
             ).Execute();
         });
-        
+
         IoC.Resolve<Hwdtech.ICommand>(
             "IoC.Register",
             "Command.Create",
-            (object[] args) => {
+            (object[] args) =>
+            {
                 var type = (string)args[0];
                 var obj = args[1];
                 return dependencies[type].Run(new object[] { obj });

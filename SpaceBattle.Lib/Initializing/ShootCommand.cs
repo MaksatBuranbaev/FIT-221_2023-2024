@@ -1,9 +1,9 @@
-namespace SpaceBattle.Lib;
+﻿namespace SpaceBattle.Lib;
 using Hwdtech;
 
 public class ShootCommand : ICommand
 {
-    readonly private IShootable _shotable;
+    private readonly IShootable _shotable;
 
     public ShootCommand(IShootable shotable)
     {
@@ -14,5 +14,5 @@ public class ShootCommand : ICommand
     {
         var projectile = IoC.Resolve<IMovable>("Adapter.Create.Movable", _shotable);
         IoC.Resolve<ICommand>("Command.StartMove", projectile).Execute();
-    }   
+    }
 }

@@ -1,7 +1,7 @@
-namespace SpaceBattle.Lib;
+﻿namespace SpaceBattle.Lib;
 using Hwdtech;
 
-public class CreateStartMovementCommandStrategy: IStrategy
+public class CreateStartMovementCommandStrategy : IStrategy
 {
     public object Run(params object[] args)
     {
