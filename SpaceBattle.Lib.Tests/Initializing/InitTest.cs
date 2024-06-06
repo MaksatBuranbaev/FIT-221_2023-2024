@@ -54,9 +54,7 @@ public class InitTest
             IoC.Resolve<object>("Scopes.New", IoC.Resolve<object>("Scopes.Root"))
         ).Execute();
 
-        var MockStrategy = new Mock<IStrategy>();
         var dependencies = new Dictionary<string, IStrategy>(){
-            {"Test", MockStrategy.Object },
             {"StartMove", new CreateStartMovementCommandStrategy() },
             {"Rotate", new CreateRotateCommandStrategy() },
             {"Shoot", new CreateShootCommandStrategy() },
@@ -71,9 +69,6 @@ public class InitTest
         ).Execute();
 
         new DependenciesInitCommand().Execute();
-
-        IoC.Resolve<IStrategy>("Command.Test");
-        IoC.Resolve<IStrategy>("Command.Create", "Test", new object());
 
         var IUObject = new Mock<IUObject>();
 
@@ -98,7 +93,6 @@ public class InitTest
         Assert.IsType<RotateCommand>(rotateCommand);
         Assert.IsType<StartMoveCommand>(startMoveCommand);
         Assert.IsType<ShootCommand>(shootCommand);
-        MockStrategy.Verify(s => s.Run(), Times.Once);
     }
 
     [Fact]

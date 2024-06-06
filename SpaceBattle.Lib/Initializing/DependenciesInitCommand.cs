@@ -15,16 +15,5 @@ public class DependenciesInitCommand : ICommand
                 (object[] args) => d.Value.Run(args)
             ).Execute();
         });
-
-        IoC.Resolve<Hwdtech.ICommand>(
-            "IoC.Register",
-            "Command.Create",
-            (object[] args) =>
-            {
-                var type = (string)args[0];
-                var obj = args[1];
-                return dependencies[type].Run(new object[] { obj });
-            }
-        ).Execute();
     }
 }
