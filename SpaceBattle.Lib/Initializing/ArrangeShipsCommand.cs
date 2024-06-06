@@ -9,7 +9,7 @@ public class ArrangeShipsCommand: ICommand
 
         foreach(var position in shipsArrangeIterator)
         {
-            _uObject = IoC.Resolve<IUObject>("Game.UObject.Arrange");
+            _uObject = IoC.Resolve<IUObject>("Game.Arrange.UObject");
             IoC.Resolve<ICommand>("Game.Arrange.Ship", _uObject, position).Execute();
         }
     }
