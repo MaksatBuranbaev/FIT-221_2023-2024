@@ -17,7 +17,7 @@ public class ShipsArrangeCommandTest
     }
 
     [Fact]
-    public void SuccessfulArrangeShip()
+    public void SuccessfullShipsArrange()
     {
         var mockUObject = new Mock<IUObject>();
         var mockVector = new Mock<Vector>(new int[]{1,1});
