@@ -30,12 +30,14 @@ public class ShipsArrangeCommandTests
             new Mock<IUObject>().Object,
             new Mock<IUObject>().Object,
         };
+        var dict = new Dictionary<int, IUObject>{};
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.ShipsArrangeIterator", (object[] args) => mockShipsIterator.Object).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Positions.Arrange", (object[] args) => positions).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.UObjects.Arrange", (object[] args) => uObjects).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Ship.Arrange", (object[] args) => mockCommand.Object).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Ships.Arrange", (object[] args) => new ShipsArrangeCommand()).Execute();
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Dictionary.UObjects", (object[] args) => dict).Execute();
 
         IoC.Resolve<ICommand>("Game.Ships.Arrange").Execute();
         mockShipsIterator.VerifyAll();

@@ -40,9 +40,11 @@ public class ShipsArrangeIteratorTests
             positions[1],
         };
 
+        var dict = new Dictionary<int, IUObject>{};
+
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Positions.Arrange", (object[] args) => positions).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.UObjects.Arrange", (object[] args) => uObjects).Execute();
-
+        IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Dictionary.UObjects", (object[] args) => dict).Execute();
         var iterator = new ShipsArrangeIterator(2);
         var iteratorLocation = new List<ArrayList>();
         foreach (var i in iterator)
@@ -52,5 +54,7 @@ public class ShipsArrangeIteratorTests
 
         Assert.Equal(shipLocation1, iteratorLocation[0]);
         Assert.Equal(shipLocation2, iteratorLocation[1]);
+        Assert.Equal(dict[0], uObjects[0]);
+        Assert.Equal(dict[1], uObjects[1]);
     }
 }

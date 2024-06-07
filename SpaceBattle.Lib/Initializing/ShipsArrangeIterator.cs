@@ -6,6 +6,7 @@ public class ShipsArrangeIterator
     public readonly int _length;
     public IList<Vector>? _positions;
     public IList<IUObject>? _uObjects;
+    public IDictionary<int, IUObject>? _dict;
     public ShipsArrangeIterator(int length)
     {
         _length = length;
@@ -16,6 +17,8 @@ public class ShipsArrangeIterator
         {
             _positions = IoC.Resolve<List<Vector>>("Game.Positions.Arrange");
             _uObjects = IoC.Resolve<List<IUObject>>("Game.UObjects.Arrange");
+            _dict = IoC.Resolve<IDictionary<int, IUObject>>("Game.Dictionary.UObjects");
+            _dict.Add(i, _uObjects[i]);
             yield return new ArrayList() { _uObjects[i], _positions[i] };
         }
     }
