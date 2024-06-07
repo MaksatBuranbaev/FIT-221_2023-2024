@@ -1,4 +1,4 @@
-namespace SpaceBattle.Lib;
+﻿namespace SpaceBattle.Lib;
 using System.Collections;
 using Hwdtech;
 public class ShipsArrangeIterator
@@ -16,7 +16,7 @@ public class ShipsArrangeIterator
         {
             _positions = IoC.Resolve<List<Vector>>("Game.Positions.Arrange");
             _uObjects = IoC.Resolve<List<IUObject>>("Game.UObjects.Arrange");
-            yield return new ArrayList(){_uObjects[i], _positions[i]};
+            yield return new ArrayList() { _uObjects[i], _positions[i] };
         }
     }
 }

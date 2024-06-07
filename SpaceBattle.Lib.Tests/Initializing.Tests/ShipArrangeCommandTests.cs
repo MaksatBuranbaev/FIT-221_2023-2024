@@ -1,4 +1,4 @@
-using Hwdtech;
+﻿using Hwdtech;
 using Hwdtech.Ioc;
 using Moq;
 
@@ -20,7 +20,7 @@ public class ShipsArrangeCommandTest
     public void SuccessfullShipsArrange()
     {
         var mockUObject = new Mock<IUObject>();
-        var mockVector = new Mock<Vector>(new int[]{1,1});
+        var mockVector = new Mock<Vector>(new int[] { 1, 1 });
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Ship.Arrange", (object[] args) => new ShipArrangeCommand(mockUObject.Object, mockVector.Object)).Execute();
 
         IoC.Resolve<ICommand>("Game.Ship.Arrange").Execute();

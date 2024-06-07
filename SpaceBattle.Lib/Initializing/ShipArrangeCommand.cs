@@ -1,5 +1,5 @@
-namespace SpaceBattle.Lib;
-public class ShipArrangeCommand: ICommand
+﻿namespace SpaceBattle.Lib;
+public class ShipArrangeCommand : ICommand
 {
     public IUObject _uObject;
     private readonly Vector _position;

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using Hwdtech;
 using Hwdtech.Ioc;
 using Moq;
@@ -29,7 +29,7 @@ public class ShipsArrangeIteratorTests
             new Mock<IUObject>().Object,
             new Mock<IUObject>().Object,
         };
-        
+
         var shipLocation1 = new ArrayList{
             uObjects[0],
             positions[0],
@@ -39,13 +39,13 @@ public class ShipsArrangeIteratorTests
             uObjects[1],
             positions[1],
         };
-        
+
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Positions.Arrange", (object[] args) => positions).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.UObjects.Arrange", (object[] args) => uObjects).Execute();
 
         var iterator = new ShipsArrangeIterator(2);
         var iteratorLocation = new List<ArrayList>();
-        foreach(var i in iterator)
+        foreach (var i in iterator)
         {
             iteratorLocation.Add(i);
         }

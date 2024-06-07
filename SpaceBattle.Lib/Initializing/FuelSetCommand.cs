@@ -1,7 +1,7 @@
-namespace SpaceBattle.Lib;
+﻿namespace SpaceBattle.Lib;
 using Hwdtech;
 
-public class FuelSetCommand : ICommand 
+public class FuelSetCommand : ICommand
 {
     public IList<IUObject>? _uObjects;
     private readonly double _fuelreserve;
@@ -9,7 +9,7 @@ public class FuelSetCommand : ICommand
     public void Execute()
     {
         _uObjects = IoC.Resolve<List<IUObject>>("Game.UObjects.FuelSet");
-        foreach(var uObject in _uObjects)
+        foreach (var uObject in _uObjects)
         {
             uObject.SetProperty("Fuel", _fuelreserve);
         }
