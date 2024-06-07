@@ -8,7 +8,7 @@ public class FuelSetCommand : ICommand
     public FuelSetCommand(double fuelreserve) => _fuelreserve = fuelreserve;
     public void Execute()
     {
-        _uObjects = IoC.Resolve<List<IUObject>>("Game.FuelSet.UObjects");
+        _uObjects = IoC.Resolve<List<IUObject>>("Game.UObjects.FuelSet");
         foreach(var uObject in _uObjects)
         {
             uObject.SetProperty("Fuel", _fuelreserve);

@@ -8,7 +8,7 @@ public class ShipsArrangeCommand: ICommand
 
         foreach(var ship in shipsArrangeIterator)
         {
-            IoC.Resolve<ICommand>("Game.Arrange.Ship", ship[0], ship[1]).Execute();
+            IoC.Resolve<ICommand>("Game.Ship.Arrange", ship[0], ship[1]).Execute();
         }
     }
 }

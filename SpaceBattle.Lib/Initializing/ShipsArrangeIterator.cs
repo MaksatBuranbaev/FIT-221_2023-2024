@@ -14,8 +14,8 @@ public class ShipsArrangeIterator
     {
         for (var i = 0; i < _length; i++)
         {
-            _positions = IoC.Resolve<List<Vector>>("Game.Arrange.Positions");
-            _uObjects = IoC.Resolve<List<IUObject>>("Game.Arrange.UObjects");
+            _positions = IoC.Resolve<List<Vector>>("Game.Positions.Arrange");
+            _uObjects = IoC.Resolve<List<IUObject>>("Game.UObjects.Arrange");
             yield return new ArrayList(){_uObjects[i], _positions[i]};
         }
     }
