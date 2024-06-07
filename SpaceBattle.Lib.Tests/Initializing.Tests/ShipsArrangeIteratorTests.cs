@@ -40,7 +40,7 @@ public class ShipsArrangeIteratorTests
             positions[1],
         };
 
-        var dict = new Dictionary<int, IUObject>{};
+        var dict = new Dictionary<int, IUObject> { };
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Positions.Arrange", (object[] args) => positions).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.UObjects.Arrange", (object[] args) => uObjects).Execute();

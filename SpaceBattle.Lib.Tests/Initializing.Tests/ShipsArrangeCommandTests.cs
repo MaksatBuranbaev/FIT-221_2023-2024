@@ -30,7 +30,7 @@ public class ShipsArrangeCommandTests
             new Mock<IUObject>().Object,
             new Mock<IUObject>().Object,
         };
-        var dict = new Dictionary<int, IUObject>{};
+        var dict = new Dictionary<int, IUObject> { };
 
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.ShipsArrangeIterator", (object[] args) => mockShipsIterator.Object).Execute();
         IoC.Resolve<Hwdtech.ICommand>("IoC.Register", "Game.Positions.Arrange", (object[] args) => positions).Execute();
